@@ -1,38 +1,200 @@
-.App {
-  text-align: center;
+.logo {
+    font-family: 'Grand Hotel', cursive;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.card-m {
+    margin-top: 2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.auth-card {
+    padding: 2rem;
+    text-align: center;
+    max-width: 600px;
+    margin: 10px auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+input[type='text']:focus {
+    border-bottom: 1px solid #1976d2 !important;
+    box-shadow: 0 1px 0 0 #1976d2 !important;
 }
 
-.App-link {
-  color: #61dafb;
+/* profile */
+
+.profile-container {
+    max-width: 935px;
+    margin: 0 auto;
+    width: 95%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.profile {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 2fr 3fr;
+    margin: 1rem 0;
+    border-bottom: 1px solid #e1e1e1;
 }
+.profile .body {
+    grid-row: 2/3;
+    grid-column: 1/5;
+}
+.profile .body h4 {
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.profile .header {
+    grid-column: 1/5;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profile .header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 80px;
+}
+
+@media (min-width: 768px) {
+    .profile .header img {
+        width: 160px;
+        height: 160px;
+    }
+    .profile {
+        grid-template-rows: repeat(2, 1fr);
+    }
+}
+
+.profile .header p {
+    font-size: 2rem;
+}
+.profile-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #bdbdbd;
+    border-bottom: 1px solid #bdbdbd;
+}
+.profile-info h5 {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+/*profile gallery*/
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3rem;
+    grid-template-rows: auto;
+}
+
+@media (min-width: 768px) {
+    .gallery {
+        gap: 2rem;
+    }
+}
+
+.gallery-item {
+    width: 100%;
+    cursor: pointer;
+}
+
+/*end profile*/
+
+/*post*/
+.post {
+    margin: 1rem auto;
+    max-width: 600px;
+}
+@media (min-width: 600px) {
+    .post {
+        border: 1px solid #e1e1e1;
+    }
+}
+.post .header {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+}
+.post .header .user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 80px;
+}
+.post .header .user {
+    display: flex;
+    align-items: center;
+}
+.post .header .user p {
+    margin-left: 0.5rem;
+    font-weight: 700;
+}
+.post .header i {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    font-size: 1.5rem;
+    color: #2c2c2c;
+}
+
+.buttons .principal i {
+    margin-right: 0.5rem;
+}
+
+.buttons i {
+    cursor: pointer;
+}
+
+.post img {
+    width: 100%;
+}
+.post p {
+    margin: 0;
+    padding: 0 0.5rem;
+}
+.likes {
+    font-weight: 700;
+}
+
+.post-body span {
+    font-weight: 700;
+}
+
+.comments span {
+    font-weight: 700;
+}
+
+.post .posted {
+    color: #b3b3b3;
+    letter-spacing: 0.2px;
+}
+
+.post .leave-comment {
+    padding: 0.5rem 1rem;
+    border-top: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.post .leave-comment input[type='text'] {
+  border: none !important;
+}
+
+.post .leave-comment input[type='text']:focus {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.post .leave-comment p {
+  font-size: 1.2rem;
+}
+
+/*end post*/
