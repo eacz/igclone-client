@@ -36,6 +36,10 @@
     margin-top: 2rem;
 }
 
+.card-m .red-text{
+    font-size: 1.1rem;
+}
+
 .auth-card {
     padding: 2rem;
     text-align: center;

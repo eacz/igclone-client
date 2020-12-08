@@ -14,10 +14,18 @@ const CreatePost = () => {
                     name="body"
                     class="materialize-textarea"></textarea>
                 <label htmlFor="body">Body</label>
-                <div className="btn-container">
-                    
-                <button className="btn blue">Post</button>
+            </div>
+            <div class="file-field input-field">
+                <div class="btn blue">
+                    <span>Upload image</span>
+                    <input type="file" />
                 </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" />
+                </div>
+            </div>
+            <div className="btn-container">
+                <button className="btn blue">Post it</button>
             </div>
         </div>
     );
