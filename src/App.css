@@ -47,7 +47,7 @@
     margin: 10px auto;
 }
 
-input[type='text']:focus {
+input:focus {
     border-bottom: 1px solid #1976d2 !important;
     box-shadow: 0 1px 0 0 #1976d2 !important;
 }
@@ -261,7 +261,7 @@ input[type='text']:focus {
     margin: 2rem auto;
     max-width: 600px;
     width: 95%;
-    padding: .5rem;
+    padding: 2rem;
 }
 .new-post h4 {
     text-align: center;

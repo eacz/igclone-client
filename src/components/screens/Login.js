@@ -15,22 +15,23 @@ const Login = () => {
             [e.target.name]: e.target.value,
         });
     };
+    const { email, password } = form;
     const handleLogin = async () => {
-        if (!form.email || !form.password) {
+        if (email || password) {
             setError('Please, fill all the fields.');
             return;
         }
         try {
             const data = await axiosClient.post('/auth/signin', form);
-            const {token} = data.data;
+            const { token } = data.data;
             console.log(token);
-            setError(null)
+            setError(null);
         } catch (error) {
             console.log(error);
-            setError(error.response.data.msg)
+            setError(error.response.data.msg);
         }
     };
-    const {email, password} = form
+
     return (
         <div className="card-m">
             <div className="card auth-card">
@@ -63,7 +64,8 @@ const Login = () => {
                     className="btn waves-effect waves-light blue"
                     type="submit"
                     name="action"
-                    onClick={handleLogin}>
+                    onClick={handleLogin}
+                >
                     Login
                 </button>
                 <h6>

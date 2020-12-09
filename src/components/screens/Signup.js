@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
+import { validatePasswordAndEmail } from '../../shared/helpers';
 
 const Signup = () => {
     const [error, setError] = useState('');
@@ -25,13 +26,18 @@ const Signup = () => {
         }
         if (password !== cpassword) {
             setError("The passwords doesn't match");
+            return;
         }
-        setError(null);
+        const result = validatePasswordAndEmail(password, email);
+        if (result) {
+            setError(result)
+            return;
+        }
         try {
             const data = await axiosClient.post('/auth/signup', form);
             console.log(data);
             setError(null);
-            history.push('/');
+            history.push('/login');
         } catch (error) {
             console.log(error);
             setError(error.response.data.msg);
@@ -90,7 +96,8 @@ const Signup = () => {
                     className="btn waves-effect waves-light blue"
                     type="submit"
                     name="action"
-                    onClick={handleSignUp}>
+                    onClick={handleSignUp}
+                >
                     Sign up
                 </button>
                 <h6>
