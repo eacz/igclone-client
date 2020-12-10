@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import axiosClient from '../../config/config';
-import Token from '../../shared/token';
 import { useHistory } from 'react-router-dom';
 
 const CreatePost = () => {
@@ -13,13 +12,41 @@ const CreatePost = () => {
         photo: '',
         photoURL: '',
     });
+    const { title, body, photo, photoURL } = post;
+    //due to setState is asynchonous, I've to use a useEffect to post to server
+    useEffect(() => {
+        if (!photoURL) return;
+        const postToServer = async () => {
+            //save the post in db
+            try {
+                const newPost = await axiosClient.post(
+                    '/post',
+                    { ...post, photo: photoURL },
+                    {
+                        headers: {
+                            'x-auth-token': localStorage.getItem('ig-token'),
+                        },
+                    }
+                );
+                console.log('uploaded to server');
+                console.log(newPost.data.post);
+                history.push('/');
+            } catch (error) {
+                console.log(error);
+                setError('Something went wrong, please try again.');
+            }
+        };
+        postToServer();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [photoURL]);
+
     const handleChange = (e) => {
         setPost({
             ...post,
             [e.target.name]: e.target.value,
         });
     };
-    const { title, body, photo } = post;
+
     const handlePost = async () => {
         if (!title || !body || !photo) {
             setError('Please fill all the fields');
@@ -32,18 +59,13 @@ const CreatePost = () => {
         data.append('upload_preset', 'igclone');
         data.append('cloud_name', 'dbyrp5tgh');
         try {
+            //upload the image to cloudinary
             const res = await axios.post(
                 'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
                 data
             );
+            console.log('uploaded to cloudinary');
             setPost({ ...post, photoURL: res.data.secure_url });
-            const newPost = await axiosClient.post(
-                '/post',
-                { ...post, photo: post.photoURL },
-                { headers: { 'x-auth-token': Token } }
-            );
-            console.log(newPost.data.post);
-            history.push('/');
         } catch (error) {
             console.log(error);
             setError(

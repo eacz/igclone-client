@@ -24,8 +24,10 @@ const Login = () => {
         }
         try {
             const data = await axiosClient.post('/auth/signin', form);
-            const { token } = data.data;
-            console.log(token);
+            const { token, user } = data.data;
+            console.log(data.data);
+            localStorage.setItem('ig-token', token);
+            localStorage.setItem('ig-user', JSON.stringify(user));
             setError(null);
             history.push('/');
         } catch (error) {
