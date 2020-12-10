@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axiosClient from '../../config/config';
+import userContext from '../../context/userContext/userContext';
+import Spinner from '../Layout/Spinner';
 
 const Profile = () => {
+    const contextUser = useContext(userContext);
+    const {
+        user: { name, username, photo, description, _id },
+    } = contextUser;
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    console.log(_id);
+    useEffect(() => {
+        const fetchPost = async () => {
+            const posts = await axiosClient.get('/post/user');
+            console.log(posts.data.posts);
+            setPosts(posts.data.posts);
+            setLoading(false);
+        };
+        fetchPost();
+    }, []);
     return (
         <div className="profile-container">
             <div className="profile">
                 <div className="header">
-                    <img
-                        src="https://images.unsplash.com/photo-1585925130019-eeafcd31b7f3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                        alt="profile"
-                    />
+                    <img src={photo} alt="profile" />
                     <div className="user-info">
-                        <p>Username</p>
+                        <p>@{username}</p>
                         <div className="profile-info">
                             <h5 className="black-text">
                                 40 <span className="grey-text">posts</span>
@@ -25,13 +41,8 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="body">
-                    <h4>Katrine Douglas</h4>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Nesciunt neque illo distinctio rem sed quasi dolore
-                        quibusdam ipsum quam odit facere, modi incidunt suscipit
-                        eos iusto similique dolor id vero?
-                    </p>
+                    <h4>{name}</h4>
+                    <p>{description}</p>
                     <div className="profile-info">
                         <h5 className="black-text">
                             40 <span className="grey-text">posts</span>
@@ -46,31 +57,19 @@ const Profile = () => {
                 </div>
             </div>
             <div className="gallery">
-                <img
-                    className="gallery-item"
-                    src="https://images.unsplash.com/photo-1585925130019-eeafcd31b7f3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                    alt="gallery 1"
-                />
-                <img
-                    className="gallery-item"
-                    src="https://images.unsplash.com/photo-1585925130019-eeafcd31b7f3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                    alt="gallery 1"
-                />
-                <img
-                    className="gallery-item"
-                    src="https://images.unsplash.com/photo-1585925130019-eeafcd31b7f3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                    alt="gallery 1"
-                />
-                <img
-                    className="gallery-item"
-                    src="https://images.unsplash.com/photo-1585925130019-eeafcd31b7f3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                    alt="gallery 1"
-                />
-                <img
-                    className="gallery-item"
-                    src="https://images.unsplash.com/photo-1585925130019-eeafcd31b7f3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                    alt="gallery 1"
-                />
+                {loading && (
+                    <div className="center-spinner">
+                        <Spinner />
+                    </div>
+                )}
+                {posts.map((post) => (
+                    <img
+                        key={post.title}
+                        className="gallery-item"
+                        src={post.photo}
+                        alt={post.title}
+                    />
+                ))}
             </div>
         </div>
     );
