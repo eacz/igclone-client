@@ -1,16 +1,49 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
+import userContext from '../../context/userContext/userContext';
 import { validatePasswordAndEmail } from '../../shared/helpers';
+import Spinner from '../Layout/Spinner';
 
 const Signup = () => {
-    const [error, setError] = useState('');
+    const contextUser = useContext(userContext);
+    const { loading } = contextUser;
+    const [Lerror, setError] = useState(null);
     const [form, setForm] = useState({
         name: '',
         email: '',
         password: '',
         cpassword: '',
+        username: '',
+        photo: '',
+        photoURL: '',
     });
+    const {
+        name,
+        email,
+        password,
+        cpassword,
+        username,
+        photo,
+        photoURL,
+    } = form;
+    useEffect(() => {
+        if (!photoURL) return;
+        const postToServer = async () => {
+            try {
+                const data = await axiosClient.post('/auth/signup', {...form, photo: form.photoURL});
+                console.log(data);
+                setError(null);
+                console.log('user saved on server');
+                history.push('/login');
+            } catch (error) {
+                setError('Something went wrong, try again.');
+            }
+        };
+        postToServer();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [photoURL]);
     const history = useHistory();
     const handleChange = (e) => {
         setForm({
@@ -18,9 +51,9 @@ const Signup = () => {
             [e.target.name]: e.target.value,
         });
     };
-    const { name, email, password, cpassword } = form;
+
     const handleSignUp = async () => {
-        if (!name || !email || !password || !cpassword) {
+        if (!name || !email || !password || !cpassword || !username) {
             setError('Please, fill all the fields.');
             return;
         }
@@ -30,14 +63,21 @@ const Signup = () => {
         }
         const result = validatePasswordAndEmail(password, email);
         if (result) {
-            setError(result)
+            setError(result);
             return;
         }
+        const data = new FormData();
+        data.append('file', photo);
+        data.append('upload_preset', 'igclone');
+        data.append('cloud_name', 'dbyrp5tgh');
         try {
-            const data = await axiosClient.post('/auth/signup', form);
-            console.log(data);
-            setError(null);
-            history.push('/login');
+            const res = await axios.post(
+                'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
+                data
+            );
+            console.log('uploaded to cloudinary');
+            setForm({ ...form, photoURL: res.data.secure_url });
+            console.log('uploaded to cloudinary');
         } catch (error) {
             console.log(error);
             setError(error.response?.data.msg);
@@ -57,6 +97,16 @@ const Signup = () => {
                         onChange={handleChange}
                     />
                     <label htmlFor="name">Name</label>
+                </div>
+                <div className="input-field">
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        value={username}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor="username">Username</label>
                 </div>
 
                 <div className="input-field">
@@ -91,7 +141,29 @@ const Signup = () => {
                     />
                     <label htmlFor="cpassword">Confirm password</label>
                 </div>
-                <p className="red-text">{error}</p>
+                <div className="file-field input-field">
+                    <div className="btn blue">
+                        <span>Upload image</span>
+                        <input
+                            type="file"
+                            name="photo"
+                            onChange={(e) =>
+                                setForm({ ...form, photo: e.target.files[0] })
+                            }
+                        />
+                    </div>
+                    <div className="file-path-wrapper">
+                        <input
+                            className="file-path validate"
+                            type="text"
+                            name="photo"
+                            id="photo"
+                        />
+                    </div>
+                </div>
+
+                <p className="red-text">{Lerror}</p>
+                {loading && <Spinner />}
                 <button
                     className="btn waves-effect waves-light blue"
                     type="submit"
