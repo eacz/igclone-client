@@ -40,7 +40,7 @@ const Signup = () => {
             history.push('/login');
         } catch (error) {
             console.log(error);
-            setError(error.response.data.msg);
+            setError(error.response?.data.msg);
         }
     };
 

@@ -24,3 +24,6 @@ yarn-error.log*
 
 .prettierrc
 .eslintcache
+
+#dev shit
+/src/shared/token.js

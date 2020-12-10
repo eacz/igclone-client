@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
 
 const Login = () => {
+    const history = useHistory();
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -17,7 +18,7 @@ const Login = () => {
     };
     const { email, password } = form;
     const handleLogin = async () => {
-        if (email || password) {
+        if (!email || !password) {
             setError('Please, fill all the fields.');
             return;
         }
@@ -26,9 +27,10 @@ const Login = () => {
             const { token } = data.data;
             console.log(token);
             setError(null);
+            history.push('/');
         } catch (error) {
             console.log(error);
-            setError(error.response.data.msg);
+            setError(error.response?.data.msg);
         }
     };
 
