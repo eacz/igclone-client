@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import axiosClient from '../../config/config';
+import userContext from '../../context/userContext/userContext';
+import Spinner from '../Layout/Spinner';
 
 const Login = () => {
     const history = useHistory();
+    const ContextUser = useContext(userContext);
+    const { loading, login, error } = ContextUser;
     const [form, setForm] = useState({
         email: '',
         password: '',
     });
-    const [error, setError] = useState(null);
+    const [Lerror, setError] = useState(error);
 
     const handleChange = (e) => {
         setForm({
@@ -22,18 +25,12 @@ const Login = () => {
             setError('Please, fill all the fields.');
             return;
         }
-        try {
-            const data = await axiosClient.post('/auth/signin', form);
-            const { token, user } = data.data;
-            console.log(data.data);
-            localStorage.setItem('ig-token', token);
-            localStorage.setItem('ig-user', JSON.stringify(user));
-            setError(null);
-            history.push('/');
-        } catch (error) {
-            console.log(error);
-            setError(error.response?.data.msg);
+        await login(form);
+        if (error) {
+            setError(error);
+            return;
         }
+        history.push('/');
     };
 
     return (
@@ -62,7 +59,8 @@ const Login = () => {
                     />
                     <label htmlFor="password">Password</label>
                 </div>
-                <p className="red-text">{error}</p>
+                <p className="red-text">{Lerror}</p>
+                {loading && <Spinner />}
 
                 <button
                     className="btn waves-effect waves-light blue"
