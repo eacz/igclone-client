@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import axiosClient from '../../config/config';
 import { useHistory } from 'react-router-dom';
+import Spinner from '../Layout/Spinner';
 
 const CreatePost = () => {
     const history = useHistory();
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false)
     const [post, setPost] = useState({
         title: '',
         body: '',
@@ -28,11 +30,13 @@ const CreatePost = () => {
                         },
                     }
                 );
+                setLoading(false)
                 console.log('uploaded to server');
                 console.log(newPost.data.post);
                 history.push('/');
             } catch (error) {
                 console.log(error);
+                setLoading(false)
                 setError('Something went wrong, please try again.');
             }
         };
@@ -53,6 +57,7 @@ const CreatePost = () => {
             return;
         }
         setError(null);
+        setLoading(true);
 
         const data = new FormData();
         data.append('file', photo);
@@ -117,6 +122,7 @@ const CreatePost = () => {
                 </div>
             </div>
             <p className="red-text">{error}</p>
+            {loading && <Spinner />}
             <div className="btn-container">
                 <button className="btn blue" onClick={() => handlePost()}>
                     Post it
