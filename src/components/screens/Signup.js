@@ -30,14 +30,13 @@ const Signup = () => {
         if (!photoURL) return;
         const postToServer = async () => {
             try {
+                //im gonna use this data later
                 const data = await axiosClient.post('/auth/signup', {
                     ...form,
                     photo: form.photoURL,
                 });
-                console.log(data);
                 setError(null);
                 setLoading(false);
-                console.log('user saved on server');
                 history.push('/login');
             } catch (error) {
                 setError('Something went wrong, try again.');
@@ -80,11 +79,8 @@ const Signup = () => {
                     'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
                     data
                 );
-                console.log('uploaded to cloudinary');
                 setForm({ ...form, photoURL: res.data.secure_url });
-                console.log('uploaded to cloudinary');
             } catch (error) {
-                console.log(error);
                 setError(error.response?.data.msg);
             }
         } else {

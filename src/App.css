@@ -255,6 +255,18 @@ input:focus {
     cursor: pointer;
 }
 
+.no-post {
+    grid-column: 1/4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+.no-post i{
+    font-size: 2rem;
+}
+
 /*end post*/
 
 /*new post*/

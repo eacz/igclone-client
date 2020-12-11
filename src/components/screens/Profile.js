@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axiosClient from '../../config/config';
 import userContext from '../../context/userContext/userContext';
 import Spinner from '../Layout/Spinner';
+import NoPost from '../NoPost';
 
 const Profile = () => {
     const contextUser = useContext(userContext);
@@ -11,16 +12,13 @@ const Profile = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    console.log(_id);
     useEffect(() => {
         const fetchPost = async () => {
             try {
                 const posts = await axiosClient.get('/post/user');
-                console.log(posts.data.posts);
                 setPosts(posts.data.posts);
                 setLoading(false);
             } catch (error) {
-                console.log(error);
                 setLoading(false);
                 setError('Something went wrong, please try again');
             }
@@ -70,6 +68,7 @@ const Profile = () => {
                         <Spinner />
                     </div>
                 )}
+                {(!loading && posts.length === 0) && <NoPost />}
                 {posts.map((post) => (
                     <img
                         key={post.title}

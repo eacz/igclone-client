@@ -21,6 +21,7 @@ const CreatePost = () => {
         const postToServer = async () => {
             //save the post in db
             try {
+                //im gonna use this data later
                 const newPost = await axiosClient.post(
                     '/post',
                     { ...post, photo: photoURL },
@@ -31,11 +32,8 @@ const CreatePost = () => {
                     }
                 );
                 setLoading(false)
-                console.log('uploaded to server');
-                console.log(newPost.data.post);
                 history.push('/');
             } catch (error) {
-                console.log(error);
                 setLoading(false)
                 setError('Something went wrong, please try again.');
             }
@@ -69,10 +67,8 @@ const CreatePost = () => {
                 'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
                 data
             );
-            console.log('uploaded to cloudinary');
             setPost({ ...post, photoURL: res.data.secure_url });
         } catch (error) {
-            console.log(error);
             setError(
                 'Something went wrong uploading the image, please try again.'
             );
