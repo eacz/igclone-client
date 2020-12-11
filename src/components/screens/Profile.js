@@ -10,13 +10,20 @@ const Profile = () => {
     } = contextUser;
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     console.log(_id);
     useEffect(() => {
         const fetchPost = async () => {
-            const posts = await axiosClient.get('/post/user');
-            console.log(posts.data.posts);
-            setPosts(posts.data.posts);
-            setLoading(false);
+            try {
+                const posts = await axiosClient.get('/post/user');
+                console.log(posts.data.posts);
+                setPosts(posts.data.posts);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+                setError('Something went wrong, please try again');
+            }
         };
         fetchPost();
     }, []);
@@ -54,6 +61,7 @@ const Profile = () => {
                             70 <span className="grey-text">following</span>
                         </h5>
                     </div>
+                    <p>{error}</p>
                 </div>
             </div>
             <div className="gallery">
