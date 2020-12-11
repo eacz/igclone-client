@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import authToken from '../../config/authToken';
 import axiosClient from '../../config/config';
 import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT } from '../types';
 import userContext from './userContext';
@@ -20,6 +21,7 @@ const UserState = (props) => {
             const data = await axiosClient.post('/auth/signin', form);
             const { token, user } = data.data;
             console.log(data.data); 
+            authToken(token)
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: {
@@ -40,6 +42,9 @@ const UserState = (props) => {
 
     const logout = () => {
         dispatch({type: LOGOUT})
+        localStorage.removeItem('ig-token')
+        localStorage.removeItem('ig-user')
+        authToken()
     }
 
     return (
