@@ -12,7 +12,7 @@ import React from 'react';
 import authToken from './config/authToken';
 function App() {
     const token = localStorage.getItem('ig-token');
-    if(token) authToken(token)
+    authToken(token)
     return (
         <UserState>
             <Router>
