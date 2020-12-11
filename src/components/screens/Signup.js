@@ -1,15 +1,13 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
-import userContext from '../../context/userContext/userContext';
 import { validatePasswordAndEmail } from '../../shared/helpers';
 import Spinner from '../Layout/Spinner';
 
 const Signup = () => {
-    const contextUser = useContext(userContext);
-    const { loading } = contextUser;
     const [Lerror, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -32,9 +30,13 @@ const Signup = () => {
         if (!photoURL) return;
         const postToServer = async () => {
             try {
-                const data = await axiosClient.post('/auth/signup', {...form, photo: form.photoURL});
+                const data = await axiosClient.post('/auth/signup', {
+                    ...form,
+                    photo: form.photoURL,
+                });
                 console.log(data);
                 setError(null);
+                setLoading(false);
                 console.log('user saved on server');
                 history.push('/login');
             } catch (error) {
@@ -66,21 +68,27 @@ const Signup = () => {
             setError(result);
             return;
         }
-        const data = new FormData();
-        data.append('file', photo);
-        data.append('upload_preset', 'igclone');
-        data.append('cloud_name', 'dbyrp5tgh');
-        try {
-            const res = await axios.post(
-                'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
-                data
-            );
-            console.log('uploaded to cloudinary');
-            setForm({ ...form, photoURL: res.data.secure_url });
-            console.log('uploaded to cloudinary');
-        } catch (error) {
-            console.log(error);
-            setError(error.response?.data.msg);
+        setLoading(true);
+        if (photo) {
+            const data = new FormData();
+            data.append('file', photo);
+            data.append('upload_preset', 'igclone');
+            data.append('cloud_name', 'dbyrp5tgh');
+
+            try {
+                const res = await axios.post(
+                    'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
+                    data
+                );
+                console.log('uploaded to cloudinary');
+                setForm({ ...form, photoURL: res.data.secure_url });
+                console.log('uploaded to cloudinary');
+            } catch (error) {
+                console.log(error);
+                setError(error.response?.data.msg);
+            }
+        } else {
+            setForm({...form, photoURL:'https://res.cloudinary.com/dbyrp5tgh/image/upload/v1607632799/igclone/defaultuser_llqwsw.jpg'})
         }
     };
 
