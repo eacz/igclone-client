@@ -5,14 +5,15 @@ const Posts = () => {
     const posts = [
         {
             _id: 1,
-            img:
+            photo:
                 'https://cdn.pixabay.com/photo/2017/07/25/01/22/cat-2536662_960_720.jpg',
-            user: {
-                name: 'CatObses',
-                pic:
+            postedBy: {
+                username: 'CatObses',
+                photo:
                     'https://cdn.pixabay.com/photo/2017/07/25/01/22/cat-2536662_960_720.jpg',
             },
-            desc: 'My cat playing',
+            title: 'Blackie',
+            body: 'My cat playing',
             likes: 2302,
             posted: 'Now',
             comments: [
@@ -30,14 +31,15 @@ const Posts = () => {
         },
         {
             _id: 2,
-            img:
+            photo:
                 'https://cdn.pixabay.com/photo/2017/07/04/09/06/landscape-2470398_960_720.jpg',
-            user: {
-                name: 'papadopulus',
-                pic:
+            postedBy: {
+                username: 'papadopulus',
+                photo:
                     'https://cdn.pixabay.com/photo/2017/07/04/09/06/landscape-2470398_960_720.jpg',
             },
-            desc: 'Weekend on Mykonos!!',
+            title: 'Loving greece',
+            body: 'Weekend on Mykonos!!',
             likes: 305,
             posted: 'A day ago',
             comments: [
