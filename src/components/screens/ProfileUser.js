@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useParams, Link } from 'react-router-dom';
 import axiosClient from '../../config/config';
 import userContext from '../../context/userContext/userContext';
+import Header from '../Layout/Header';
 import Spinner from '../Layout/Spinner';
 import NoPost from '../NoPost';
 
@@ -22,7 +23,7 @@ const ProfileUser = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if(auth && user._id === userID ) return
+        if (auth && user._id === userID) return;
         const fetchUser = async () => {
             try {
                 const profile = await axiosClient(`/user/${userID}`);
@@ -34,27 +35,51 @@ const ProfileUser = () => {
             }
         };
         fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userID]);
     const { name, username, photo, description } = profile.user;
     return auth && user._id === userID ? (
         <Redirect to="/profile" />
     ) : loading ? (
-        <div className="center-spinner">
-            <Spinner />
-        </div>
+        <>
+            <Header />
+            <div className="center-spinner">
+                <Spinner />
+            </div>
+        </>
     ) : error ? (
         <p>{error}</p>
     ) : (
-        <div className="profile-container">
-            <div className="profile">
-                <div className="header">
-                    <img src={photo} alt="profile" />
-                    <div className="user-info">
-                        <p>@{username}</p>
+        <>
+            <Header />
+
+            <div className="profile-container">
+                <div className="profile">
+                    <div className="header">
+                        <img src={photo} alt="profile" />
+                        <div className="user-info">
+                            <p>@{username}</p>
+                            <div className="profile-info">
+                                <h5 className="black-text">
+                                    40 <span className="grey-text">posts</span>
+                                </h5>
+                                <h5 className="black-text">
+                                    40{' '}
+                                    <span className="grey-text">followers</span>
+                                </h5>
+                                <h5 className="black-text">
+                                    70{' '}
+                                    <span className="grey-text">following</span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="body">
+                        <h4>{name}</h4>
+                        <p>{description}</p>
                         <div className="profile-info">
                             <h5 className="black-text">
-                                40 <span className="grey-text">posts</span>
+                                {profile.posts.length} <span className="grey-text">posts</span>
                             </h5>
                             <h5 className="black-text">
                                 40 <span className="grey-text">followers</span>
@@ -63,44 +88,29 @@ const ProfileUser = () => {
                                 70 <span className="grey-text">following</span>
                             </h5>
                         </div>
+                        <p>{error}</p>
                     </div>
                 </div>
-                <div className="body">
-                    <h4>{name}</h4>
-                    <p>{description}</p>
-                    <div className="profile-info">
-                        <h5 className="black-text">
-                            40 <span className="grey-text">posts</span>
-                        </h5>
-                        <h5 className="black-text">
-                            40 <span className="grey-text">followers</span>
-                        </h5>
-                        <h5 className="black-text">
-                            70 <span className="grey-text">following</span>
-                        </h5>
-                    </div>
-                    <p>{error}</p>
+                <div className="gallery">
+                    {loading && (
+                        <div className="center-spinner">
+                            <Spinner />
+                        </div>
+                    )}
+                    {!loading && profile.posts.length === 0 && <NoPost />}
+                    {profile.posts.map((post) => (
+                        <Link to={`/post/${post._id}`}>
+                            <img
+                                key={post._id}
+                                className="gallery-item"
+                                src={post.photo}
+                                alt={post.title}
+                            />
+                        </Link>
+                    ))}
                 </div>
             </div>
-            <div className="gallery">
-                {loading && (
-                    <div className="center-spinner">
-                        <Spinner />
-                    </div>
-                )}
-                {!loading && profile.posts.length === 0 && <NoPost />}
-                {profile.posts.map((post) => (
-                    <Link to={`/post/${post._id}`}>
-                        <img
-                            key={post._id}
-                            className="gallery-item"
-                            src={post.photo}
-                            alt={post.title}
-                        />
-                    </Link>
-                ))}
-            </div>
-        </div>
+        </>
     );
 };
 

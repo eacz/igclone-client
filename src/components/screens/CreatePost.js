@@ -3,6 +3,7 @@ import axios from 'axios';
 import axiosClient from '../../config/config';
 import { useHistory } from 'react-router-dom';
 import Spinner from '../Layout/Spinner';
+import Header from '../Layout/Header';
 
 const CreatePost = () => {
     const history = useHistory();
@@ -75,6 +76,8 @@ const CreatePost = () => {
         }
     };
     return (
+        <>
+        <Header/>
         <div className="card-shadow new-post">
             <h4>Create a new post!</h4>
             <div className="input-field">
@@ -125,6 +128,7 @@ const CreatePost = () => {
                 </button>
             </div>
         </div>
+        </>
     );
 };
 

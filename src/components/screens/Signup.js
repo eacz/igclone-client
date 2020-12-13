@@ -29,6 +29,7 @@ const Signup = () => {
     useEffect(() => {
         if (!photoURL) return;
         const postToServer = async () => {
+            setLoading(true)
             try {
                 //im gonna use this data later
                 const data = await axiosClient.post('/auth/signup', {
@@ -82,6 +83,7 @@ const Signup = () => {
                 );
                 setForm({ ...form, photoURL: res.data.secure_url });
             } catch (error) {
+                setLoading(false)
                 setError(error.response?.data.msg);
             }
         } else {

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import axiosClient from '../../config/config';
+import Header from '../Layout/Header';
 import Spinner from '../Layout/Spinner';
 import Post from '../Post';
 
 const PostDetails = () => {
+    const history = useHistory()
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState(null);
     const { postID } = useParams();
@@ -12,25 +14,30 @@ const PostDetails = () => {
         const fetchPost = async () => {
             try {
                 const res = await axiosClient(`/post/${postID}`);
-                setPost(res.data.post)
-                console.log(res.data.post);
-                setLoading(false)
-                console.log(post);
+                if(res.data.post === undefined) throw new Error(res.data.msg);
+                setPost(res.data.post);
+                setLoading(false);
             } catch (error) {
-                console.log(error);
+                history.push('/404')
             }
         };
         fetchPost();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div>
             {loading ? (
-                <div className="center-spinner">
-                    <Spinner />
-                </div>
+                <>
+                    <Header />
+                    <div className="center-spinner">
+                        <Spinner />
+                    </div>
+                </>
             ) : (
-                <Post {...post} />
+                <>
+                    <Header />
+                    <Post {...post} />
+                </>
             )}
         </div>
     );

@@ -300,6 +300,40 @@ input:focus {
 }
 /*end new post*/
 
+/**/
+.page-404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-404 h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+.page-404 i {
+    font-size: 5rem;
+}
+
+.page-404 .links {
+    border-bottom: 1px solid #e1e1e1;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+.page-404 .links .options {
+    display: flex;
+    justify-content: space-around;
+}
+
+.page-404 .links .options a:hover {
+    text-decoration: underline; 
+}
+
+/**/
+
+
+
 /* spinner */
 .sk-fading-circle {
     margin: 20px auto;
