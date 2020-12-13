@@ -10,17 +10,21 @@ import UserState from './context/userContext/userState';
 import PrivateRoute from './components/PrivateRoute';
 import React from 'react';
 import authToken from './config/authToken';
+import PostDetails from './components/screens/PostDetails';
+import ProfileUser from './components/screens/ProfileUser';
 function App() {
     const token = localStorage.getItem('ig-token');
-    authToken(token)
+    authToken(token);
     return (
         <UserState>
             <Router>
                 <Header />
+                <Route path="/post/:postID" component={PostDetails} />
                 <Route exact path="/" component={Home} />
-                <PrivateRoute path="/profile" component={Profile} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
+                <Route path="/user/:userID" component={ProfileUser} />
+                <PrivateRoute path="/profile" component={Profile} />
                 <PrivateRoute path="/newpost" component={CreatePost} />
             </Router>
         </UserState>

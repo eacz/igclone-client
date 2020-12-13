@@ -39,7 +39,8 @@ const Signup = () => {
                 setLoading(false);
                 history.push('/login');
             } catch (error) {
-                setError('Something went wrong, try again.');
+                setLoading(false);
+                setError(error.response.data.msg);
             }
         };
         postToServer();
@@ -84,7 +85,11 @@ const Signup = () => {
                 setError(error.response?.data.msg);
             }
         } else {
-            setForm({...form, photoURL:'https://res.cloudinary.com/dbyrp5tgh/image/upload/v1607632799/igclone/defaultuser_llqwsw.jpg'})
+            setForm({
+                ...form,
+                photoURL:
+                    'https://res.cloudinary.com/dbyrp5tgh/image/upload/v1607632799/igclone/defaultuser_llqwsw.jpg',
+            });
         }
     };
 

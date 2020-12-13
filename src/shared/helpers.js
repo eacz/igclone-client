@@ -22,3 +22,4 @@ export const validatePasswordAndEmail = (password, email) => {
 
     return error;
 };
+

@@ -20,7 +20,6 @@ const UserState = (props) => {
             dispatch({type: LOGIN})
             const data = await axiosClient.post('/auth/signin', form);
             const { token, user } = data.data;
-            console.log(data.data); 
             authToken(token)
             dispatch({
                 type: LOGIN_SUCCESS,
@@ -32,7 +31,6 @@ const UserState = (props) => {
             localStorage.setItem('ig-token', token);
             localStorage.setItem('ig-user', JSON.stringify(user));
         } catch (error) {
-            console.log(error);
             dispatch({
                 action: LOGIN_FAILED,
                 payload: error.response?.data.msg,

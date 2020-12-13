@@ -1,32 +1,51 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, useParams, Link } from 'react-router-dom';
 import axiosClient from '../../config/config';
 import userContext from '../../context/userContext/userContext';
 import Spinner from '../Layout/Spinner';
 import NoPost from '../NoPost';
 
-const Profile = () => {
+const ProfileUser = () => {
+    const { userID } = useParams();
     const contextUser = useContext(userContext);
-    const {
-        user: { name, username, photo, description },
-    } = contextUser;
-    const [posts, setPosts] = useState([]);
+    const { auth, user } = contextUser;
+    const [profile, setProfile] = useState({
+        user: {
+            name: '',
+            username: '',
+            photo: '',
+            description: '',
+        },
+        posts: [],
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     useEffect(() => {
-        const fetchPost = async () => {
+        if(auth && user._id === userID ) return
+        const fetchUser = async () => {
             try {
-                const posts = await axiosClient.get('/post/user');
-                setPosts(posts.data.posts);
+                const profile = await axiosClient(`/user/${userID}`);
+                setProfile(profile.data);
                 setLoading(false);
             } catch (error) {
+                setError('Something went wrong, please reload');
                 setLoading(false);
-                setError('Something went wrong, please try again');
             }
         };
-        fetchPost();
-    }, []);
-    return (
+        fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userID]);
+    const { name, username, photo, description } = profile.user;
+    return auth && user._id === userID ? (
+        <Redirect to="/profile" />
+    ) : loading ? (
+        <div className="center-spinner">
+            <Spinner />
+        </div>
+    ) : error ? (
+        <p>{error}</p>
+    ) : (
         <div className="profile-container">
             <div className="profile">
                 <div className="header">
@@ -69,11 +88,11 @@ const Profile = () => {
                         <Spinner />
                     </div>
                 )}
-                {!loading && posts.length === 0 && <NoPost />}
-                {posts.map((post) => (
+                {!loading && profile.posts.length === 0 && <NoPost />}
+                {profile.posts.map((post) => (
                     <Link to={`/post/${post._id}`}>
                         <img
-                            key={post.photo}
+                            key={post._id}
                             className="gallery-item"
                             src={post.photo}
                             alt={post.title}
@@ -85,4 +104,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default ProfileUser;

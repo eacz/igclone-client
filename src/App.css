@@ -185,6 +185,7 @@ input:focus {
     align-items: center;
 }
 .post .header .user p {
+    color: #000000;
     margin-left: 0.5rem;
     font-weight: 700;
 }
@@ -221,7 +222,14 @@ input:focus {
     font-weight: 700;
 }
 
+
+
+.post-body p {
+    margin: 0;
+}
+
 .post-body span {
+    padding-left: 0.5rem;
     font-weight: 700;
 }
 
