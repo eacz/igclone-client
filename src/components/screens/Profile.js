@@ -38,14 +38,14 @@ const Profile = () => {
                             <p>@{username}</p>
                             <div className="profile-info">
                                 <h5 className="black-text">
-                                    {posts.length}<span className="grey-text">posts</span>
+                                    {posts.length+ ' '}<span className="grey-text">posts</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    {followers.length}
+                                    {followers.length+ ' '}
                                     <span className="grey-text">followers</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    {following.length}
+                                    {following.length+ ' '}
                                     <span className="grey-text">following</span>
                                 </h5>
                             </div>

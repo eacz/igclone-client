@@ -31,6 +31,9 @@ const Navbar = () => {
                             <NavLink to="/newpost">
                                 <i className="fas fa-plus blue-text"></i>
                             </NavLink>
+                            <NavLink to="/profile/config">
+                                <i className="fas fa-cog"></i>
+                            </NavLink>
                         </>
                     )}
                 </>

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import authToken from '../../config/authToken';
 import axiosClient from '../../config/config';
-import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT, MAINTAIN_SESSION } from '../types';
+import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT, MAINTAIN_SESSION, UPDATE_USER } from '../types';
 import userContext from './userContext';
 import userReducer from './userReducer';
 
@@ -52,6 +52,13 @@ const UserState = (props) => {
         })
     }
 
+    const updateUser = user => {
+        dispatch({
+            type: UPDATE_USER,
+            payload: user
+        })
+    }
+
     return (
         <userContext.Provider
             value={{
@@ -62,7 +69,8 @@ const UserState = (props) => {
                 loading: state.loading,
                 login,
                 logout,
-                maintainSession
+                maintainSession,
+                updateUser
             }}
         >
             {props.children}

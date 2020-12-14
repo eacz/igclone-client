@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT } from '../types';
+import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT, UPDATE_USER } from '../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
@@ -11,6 +11,8 @@ export default (state, action) => {
             return {...state, loading: false, token: null, user: null, error: action.payload, auth: false}
         case LOGOUT:
             return {...state, loading:false, token: null, user: null, error: null, auth: false}
+        case UPDATE_USER:
+            return {...state, user: action.payload}
         default:
             return state;
     }
