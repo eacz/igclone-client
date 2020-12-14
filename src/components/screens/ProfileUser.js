@@ -9,7 +9,7 @@ import NoPost from '../NoPost';
 const ProfileUser = () => {
     const { userID } = useParams();
     const contextUser = useContext(userContext);
-    const { auth, user } = contextUser;
+    const { auth, user, updateUser } = contextUser;
     const [profile, setProfile] = useState({
         user: {
             name: '',
@@ -17,7 +17,7 @@ const ProfileUser = () => {
             photo: '',
             description: '',
             followers: [],
-            following: []
+            following: [],
         },
         posts: [],
     });
@@ -39,7 +39,25 @@ const ProfileUser = () => {
         fetchUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userID]);
-    const { name, username, photo, description, followers, following } = profile.user;
+    const {
+        name,
+        username,
+        photo,
+        description,
+        followers,
+        following,
+    } = profile.user;
+
+    const handleFollowUnfollow = async () => {
+        const data = { userID, follow: !user.following.includes(userID) };
+        try {
+            const res = await axiosClient.post('/user/follow', data);
+            updateUser(res.data.user);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return auth && user._id === userID ? (
         <Redirect to="/profile" />
     ) : loading ? (
@@ -61,16 +79,27 @@ const ProfileUser = () => {
                         <img src={photo} alt="profile" />
                         <div className="user-info">
                             <p>@{username}</p>
+                            {auth && (
+                                <button
+                                    className="btn blue"
+                                    onClick={() => handleFollowUnfollow()}
+                                >
+                                    {user.following.includes(userID)
+                                        ? 'Unfollow'
+                                        : 'Follow'}
+                                </button>
+                            )}
                             <div className="profile-info">
                                 <h5 className="black-text">
-                                    {profile.posts.length}<span className="grey-text">posts</span>
+                                    {profile.posts.length}
+                                    <span className="grey-text">posts</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    {followers.length +' '}
+                                    {followers.length + ' '}
                                     <span className="grey-text">followers</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    {following.length+' '}
+                                    {following.length + ' '}
                                     <span className="grey-text">following</span>
                                 </h5>
                             </div>
@@ -81,13 +110,16 @@ const ProfileUser = () => {
                         <p>{description}</p>
                         <div className="profile-info">
                             <h5 className="black-text">
-                                {profile.posts.length} <span className="grey-text">posts</span>
+                                {profile.posts.length}{' '}
+                                <span className="grey-text">posts</span>
                             </h5>
                             <h5 className="black-text">
-                                {followers.length+' '} <span className="grey-text">followers</span>
+                                {followers.length + ' '}{' '}
+                                <span className="grey-text">followers</span>
                             </h5>
                             <h5 className="black-text">
-                                {following.length + ' '}<span className="grey-text">following</span>
+                                {following.length + ' '}
+                                <span className="grey-text">following</span>
                             </h5>
                         </div>
                         <p>{error}</p>
@@ -101,7 +133,7 @@ const ProfileUser = () => {
                     )}
                     {!loading && profile.posts.length === 0 && <NoPost />}
                     {profile.posts.map((post) => (
-                        <Link to={`/post/${post._id}`}>
+                        <Link to={`/post/${post._id}`} key={post._id}>
                             <img
                                 key={post._id}
                                 className="gallery-item"

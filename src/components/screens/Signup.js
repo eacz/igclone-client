@@ -1,11 +1,13 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
+import userContext from '../../context/userContext/userContext';
 import { validatePasswordAndEmail } from '../../shared/helpers';
 import Spinner from '../Layout/Spinner';
 
 const Signup = () => {
+    const { auth } = useContext(userContext);
     const [Lerror, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
@@ -29,7 +31,7 @@ const Signup = () => {
     useEffect(() => {
         if (!photoURL) return;
         const postToServer = async () => {
-            setLoading(true)
+            setLoading(true);
             try {
                 //im gonna use this data later
                 const data = await axiosClient.post('/auth/signup', {
@@ -83,7 +85,7 @@ const Signup = () => {
                 );
                 setForm({ ...form, photoURL: res.data.secure_url });
             } catch (error) {
-                setLoading(false)
+                setLoading(false);
                 setError(error.response?.data.msg);
             }
         } else {
@@ -95,7 +97,9 @@ const Signup = () => {
         }
     };
 
-    return (
+    return auth ? (
+        <Redirect to="/" />
+    ) : (
         <div className="card-m">
             <div className="card auth-card">
                 <h2 className="logo">Instagram</h2>

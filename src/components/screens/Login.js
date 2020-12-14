@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import userContext from '../../context/userContext/userContext';
 import Spinner from '../Layout/Spinner';
 
 const Login = () => {
     const history = useHistory();
     const ContextUser = useContext(userContext);
-    const { loading, login, error } = ContextUser;
+    const { loading, login, error, auth } = ContextUser;
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -30,10 +30,12 @@ const Login = () => {
             setError(error);
             return;
         }
-        history.push('/');
+        history.goBack()
     };
 
-    return (
+    return auth ? (
+        <Redirect to="/" />
+    ) : (   
         <div className="card-m">
             <div className="card auth-card">
                 <h2 className="logo">Instagram</h2>
