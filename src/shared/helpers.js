@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 //the email regex check if the email has an @ and if it ends with .[something]
 //the password regex check that the password must contain at least one uppercase letter, one lowercase letter and a number
 export const validatePasswordAndEmail = (password, email) => {

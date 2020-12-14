@@ -37,7 +37,7 @@ const Post = ({
                     <i className="far fa-bookmark"></i>
                 </div>
             )}
-            <p className="likes">{likes} Likes</p>
+            <p className="likes">{likes.length} Likes</p>
             <div className="post-body">
                 <span>{user.username}</span> {title}
                 <p>{body}</p>

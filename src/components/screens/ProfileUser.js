@@ -16,6 +16,8 @@ const ProfileUser = () => {
             username: '',
             photo: '',
             description: '',
+            followers: [],
+            following: []
         },
         posts: [],
     });
@@ -37,7 +39,7 @@ const ProfileUser = () => {
         fetchUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userID]);
-    const { name, username, photo, description } = profile.user;
+    const { name, username, photo, description, followers, following } = profile.user;
     return auth && user._id === userID ? (
         <Redirect to="/profile" />
     ) : loading ? (
@@ -61,14 +63,14 @@ const ProfileUser = () => {
                             <p>@{username}</p>
                             <div className="profile-info">
                                 <h5 className="black-text">
-                                    40 <span className="grey-text">posts</span>
+                                    {profile.posts.length}<span className="grey-text">posts</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    40{' '}
+                                    {followers.length +' '}
                                     <span className="grey-text">followers</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    70{' '}
+                                    {following.length+' '}
                                     <span className="grey-text">following</span>
                                 </h5>
                             </div>
@@ -82,10 +84,10 @@ const ProfileUser = () => {
                                 {profile.posts.length} <span className="grey-text">posts</span>
                             </h5>
                             <h5 className="black-text">
-                                40 <span className="grey-text">followers</span>
+                                {followers.length+' '} <span className="grey-text">followers</span>
                             </h5>
                             <h5 className="black-text">
-                                70 <span className="grey-text">following</span>
+                                {following.length + ' '}<span className="grey-text">following</span>
                             </h5>
                         </div>
                         <p>{error}</p>

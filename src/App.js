@@ -17,24 +17,28 @@ import authToken from './config/authToken';
 import PostDetails from './components/screens/PostDetails';
 import ProfileUser from './components/screens/ProfileUser';
 import Page404 from './components/screens/Page404';
+import PostsState from './context/postsContext/postState';
 function App() {
     const token = localStorage.getItem('ig-token');
     authToken(token);
+
     return (
         <UserState>
-            <Router>
-                <Switch>
-                    <Route path="/post/:postID" component={PostDetails} />
-                    <Route exact path="/" component={Home} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/signup" component={Signup} />
-                    <Route path="/user/:userID" component={ProfileUser} />
-                    <PrivateRoute path="/profile" component={Profile} />
-                    <PrivateRoute path="/newpost" component={CreatePost} />
-                    <Route path="/404" component={Page404} />
-                    <Redirect to="/404" />
-                </Switch>
-            </Router>
+            <PostsState>
+                <Router>
+                    <Switch>
+                        <Route path="/post/:postID" component={PostDetails} />
+                        <Route exact path="/" component={Home} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/signup" component={Signup} />
+                        <Route path="/user/:userID" component={ProfileUser} />
+                        <PrivateRoute path="/profile" component={Profile} />
+                        <PrivateRoute path="/newpost" component={CreatePost} />
+                        <Route path="/404" component={Page404} />
+                        <Redirect to="/404" />
+                    </Switch>
+                </Router>
+            </PostsState>
         </UserState>
     );
 }

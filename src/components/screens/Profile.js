@@ -9,7 +9,7 @@ import NoPost from '../NoPost';
 const Profile = () => {
     const contextUser = useContext(userContext);
     const {
-        user: { name, username, photo, description },
+        user: { name, username, photo, description, followers, following },
     } = contextUser;
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -38,14 +38,14 @@ const Profile = () => {
                             <p>@{username}</p>
                             <div className="profile-info">
                                 <h5 className="black-text">
-                                    40 <span className="grey-text">posts</span>
+                                    {posts.length}<span className="grey-text">posts</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    40{' '}
+                                    {followers.length}
                                     <span className="grey-text">followers</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    70{' '}
+                                    {following.length}
                                     <span className="grey-text">following</span>
                                 </h5>
                             </div>
@@ -59,10 +59,10 @@ const Profile = () => {
                                 {posts.length} <span className="grey-text">posts</span>
                             </h5>
                             <h5 className="black-text">
-                                40 <span className="grey-text">followers</span>
+                                {followers.length+ ' '}<span className="grey-text">followers</span>
                             </h5>
                             <h5 className="black-text">
-                                70 <span className="grey-text">following</span>
+                                {following.length+ ' '}<span className="grey-text">following</span>
                             </h5>
                         </div>
                         <p>{error}</p>
@@ -76,9 +76,9 @@ const Profile = () => {
                     )}
                     {!loading && posts.length === 0 && <NoPost />}
                     {posts.map((post) => (
-                        <Link to={`/post/${post._id}`}>
+                        <Link key={post._id} to={`/post/${post._id}`}>
                             <img
-                                key={post.photo}
+                                key={post._id}
                                 className="gallery-item"
                                 src={post.photo}
                                 alt={post.title}
