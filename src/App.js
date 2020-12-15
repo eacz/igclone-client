@@ -19,6 +19,7 @@ import ProfileUser from './components/screens/ProfileUser';
 import Page404 from './components/screens/Page404';
 import PostsState from './context/postsContext/postState';
 import ConfigProfile from './components/screens/ConfigProfile';
+import UsersList from './components/screens/UsersList';
 function App() {
     const token = localStorage.getItem('ig-token');
     authToken(token);
@@ -36,6 +37,7 @@ function App() {
                         <PrivateRoute exact path="/profile" component={Profile} />
                         <PrivateRoute exact path="/profile/config" component={ConfigProfile} />
                         <PrivateRoute path="/newpost" component={CreatePost} />
+                        <Route to="/userlist" component={UsersList} />
                         <Route path="/404" component={Page404} />
                         <Redirect to="/404" />
                     </Switch>

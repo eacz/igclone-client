@@ -500,3 +500,47 @@ input:focus {
     grid-column: 1/4;
 }
 /*end spinner*/
+
+.pointer {
+    cursor: pointer;
+}
+.userlist {
+    padding: .5rem;
+}
+.userlist .go-back {
+    cursor: pointer;
+}
+
+.userlist .go-back:hover {
+    text-decoration: underline;
+}
+
+.userlist .userlist-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userlist .userlist-item .left {
+    display: flex;
+    align-items: center;
+}
+.userlist .userlist-item .left p{
+    font-weight: 700;
+    margin-left: .5rem;
+    cursor: pointer;
+}
+.userlist .userlist-item .left img {
+    width: 40px;
+    height: 40px;
+    border-radius: 80px;
+}
+
+.btn-f {
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+}
+
+.btn-nf {
+    border-radius: 10px;
+}

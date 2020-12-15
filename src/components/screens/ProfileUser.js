@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Redirect, useParams, Link } from 'react-router-dom';
+import { Redirect, useParams, Link, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
 import userContext from '../../context/userContext/userContext';
 import Header from '../Layout/Header';
@@ -7,9 +7,10 @@ import Spinner from '../Layout/Spinner';
 import NoPost from '../NoPost';
 
 const ProfileUser = () => {
+    const history = useHistory()
     const { userID } = useParams();
     const contextUser = useContext(userContext);
-    const { auth, user, updateUser } = contextUser;
+    const { auth, user, updateUser,updateListUser } = contextUser;
     const [profile, setProfile] = useState({
         user: {
             name: '',
@@ -70,6 +71,12 @@ const ProfileUser = () => {
         }
     };
 
+    const redirectToUserDetails = (users) => {
+        if(users.length === 0) return
+        updateListUser(users);
+        history.push(`/userlist`);
+    }
+
     return auth && user._id === userID ? (
         <Redirect to="/profile" />
     ) : loading ? (
@@ -108,11 +115,11 @@ const ProfileUser = () => {
                                 </h5>
                                 <h5 className="black-text">
                                     {followers.length + ' '}
-                                    <span className="grey-text">followers</span>
+                                    <span className={`grey-text ${followers.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(followers)}>followers</span>
                                 </h5>
                                 <h5 className="black-text">
                                     {following.length + ' '}
-                                    <span className="grey-text">following</span>
+                                    <span className={`grey-text ${following.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(following)}>following</span>
                                 </h5>
                             </div>
                         </div>
@@ -127,11 +134,11 @@ const ProfileUser = () => {
                             </h5>
                             <h5 className="black-text">
                                 {followers.length + ' '}{' '}
-                                <span className="grey-text">followers</span>
+                                <span className={`grey-text ${followers.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(followers)}>followers</span>
                             </h5>
                             <h5 className="black-text">
                                 {following.length + ' '}
-                                <span className="grey-text">following</span>
+                                <span className={`grey-text ${following.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(following)}>following</span>
                             </h5>
                         </div>
                         <p>{error}</p>

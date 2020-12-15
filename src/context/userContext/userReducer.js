@@ -4,6 +4,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     UPDATE_USER,
+    UPDATE_USER_LIST,
 } from '../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -40,6 +41,8 @@ export default (state, action) => {
             };
         case UPDATE_USER:
             return { ...state, user: {...state.user, following: action.payload.following}  };
+        case UPDATE_USER_LIST:
+            return {...state, listUserToDisplay: action.payload}
         default:
             return state;
     }

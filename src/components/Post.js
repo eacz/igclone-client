@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
 import userContext from '../context/userContext/userContext';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Post = ({
     photo,
@@ -12,8 +12,15 @@ const Post = ({
     comments,
     created,
 }) => {
+    const history = useHistory();
     const contextUser = useContext(userContext);
-    const { auth } = contextUser;
+    const { auth, updateListUser } = contextUser;
+
+    const redirectToUserDetails = (users) => {
+        if (users.length === 0) return;
+        updateListUser(users);
+        history.push(`/userlist`);
+    };
     return (
         <div className="post">
             <div className="header">
@@ -37,7 +44,12 @@ const Post = ({
                     <i className="far fa-bookmark"></i>
                 </div>
             )}
-            <p className="likes">{likes.length} Likes</p>
+            <p
+                className={`likes ${likes.length > 0 ? 'pointer' : ''}`}
+                onClick={() => redirectToUserDetails(likes)}
+            >
+                {likes.length} Likes
+            </p>
             <div className="post-body">
                 <span>{user.username}</span> {title}
                 <p>{body}</p>

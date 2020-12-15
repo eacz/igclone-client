@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
 import userContext from '../../context/userContext/userContext';
 import Header from '../Layout/Header';
@@ -7,8 +7,10 @@ import Spinner from '../Layout/Spinner';
 import NoPost from '../NoPost';
 
 const Profile = () => {
+    const history = useHistory();
     const contextUser = useContext(userContext);
     const {
+        updateListUser,
         user: { name, username, photo, description, followers, following },
     } = contextUser;
     const [posts, setPosts] = useState([]);
@@ -27,6 +29,11 @@ const Profile = () => {
         };
         fetchPost();
     }, []);
+    const redirectToUserDetails = (users) => {
+        if (users.length === 0) return;
+        updateListUser(users);
+        history.push(`/userlist`);
+    };
     return (
         <>
             <Header />
@@ -38,15 +45,38 @@ const Profile = () => {
                             <p>@{username}</p>
                             <div className="profile-info">
                                 <h5 className="black-text">
-                                    {posts.length+ ' '}<span className="grey-text">posts</span>
+                                    {posts.length + ' '}
+                                    <span className="grey-text">posts</span>
                                 </h5>
                                 <h5 className="black-text">
-                                    {followers.length+ ' '}
-                                    <span className="grey-text">followers</span>
+                                    {followers.length + ' '}
+                                    <span
+                                        className={`grey-text ${
+                                            followers.length > 0
+                                                ? 'pointer'
+                                                : ''
+                                        }`}
+                                        onClick={() =>
+                                            redirectToUserDetails(followers)
+                                        }
+                                    >
+                                        followers
+                                    </span>
                                 </h5>
                                 <h5 className="black-text">
-                                    {following.length+ ' '}
-                                    <span className="grey-text">following</span>
+                                    {following.length + ' '}
+                                    <span
+                                        className={`grey-text ${
+                                            following.length > 0
+                                                ? 'pointer'
+                                                : ''
+                                        }`}
+                                        onClick={() =>
+                                            redirectToUserDetails(following)
+                                        }
+                                    >
+                                        following
+                                    </span>
                                 </h5>
                             </div>
                         </div>
@@ -56,13 +86,34 @@ const Profile = () => {
                         <p>{description}</p>
                         <div className="profile-info">
                             <h5 className="black-text">
-                                {posts.length} <span className="grey-text">posts</span>
+                                {posts.length}{' '}
+                                <span className="grey-text">posts</span>
                             </h5>
                             <h5 className="black-text">
-                                {followers.length+ ' '}<span className="grey-text">followers</span>
+                                {followers.length + ' '}
+                                <span
+                                    className={`grey-text ${
+                                        followers.length > 0 ? 'pointer' : ''
+                                    }`}
+                                    onClick={() =>
+                                        redirectToUserDetails(followers)
+                                    }
+                                >
+                                    followers
+                                </span>
                             </h5>
                             <h5 className="black-text">
-                                {following.length+ ' '}<span className="grey-text">following</span>
+                                {following.length + ' '}
+                                <span
+                                    className={`grey-text ${
+                                        following.length > 0 ? 'pointer' : ''
+                                    }`}
+                                    onClick={() =>
+                                        redirectToUserDetails(following)
+                                    }
+                                >
+                                    following
+                                </span>
                             </h5>
                         </div>
                         <p>{error}</p>

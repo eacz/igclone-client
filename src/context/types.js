@@ -5,6 +5,8 @@ export const LOGIN_FAILED = 'LOGIN_FAILED'
 export const LOGOUT = 'LOGOUT'
 export const MAINTAIN_SESSION = 'MAINTAIN_SESSION'
 export const UPDATE_USER = 'UPDATE_USER'
+export const UPDATE_USER_LIST = 'UPDATE_USER_LIST'
+
 
 //post context
 export const ADD_POSTS = 'ADD_POSTS'
