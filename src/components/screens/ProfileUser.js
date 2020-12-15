@@ -53,6 +53,18 @@ const ProfileUser = () => {
         try {
             const res = await axiosClient.post('/user/follow', data);
             updateUser(res.data.user);
+            let updatedProfileFollowers;
+            if (data.follow) {
+                updatedProfileFollowers = [...profile.user.followers, user._id]
+            } else {
+                updatedProfileFollowers = profile.user.followers.filter(
+                    (follower) => (follower === user._id ? null : follower)
+                );
+            }
+            setProfile({
+                ...profile,
+                user: { ...profile.user, followers: updatedProfileFollowers },
+            });
         } catch (error) {
             console.log(error);
         }
@@ -91,7 +103,7 @@ const ProfileUser = () => {
                             )}
                             <div className="profile-info">
                                 <h5 className="black-text">
-                                    {profile.posts.length}
+                                    {profile.posts.length + ' '}
                                     <span className="grey-text">posts</span>
                                 </h5>
                                 <h5 className="black-text">
