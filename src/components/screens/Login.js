@@ -30,9 +30,10 @@ const Login = () => {
         }
         setLoading(true);
         const result = await login(form);
-        setLoading(false);
+
         if (result) {
             setError(result);
+            setLoading(false);
             return;
         }
         history.goBack();
