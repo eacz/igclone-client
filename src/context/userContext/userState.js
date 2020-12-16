@@ -40,11 +40,13 @@ const UserState = (props) => {
             });
             localStorage.setItem('ig-token', token);
             localStorage.setItem('ig-user', JSON.stringify(user));
+            return null
         } catch (error) {
             dispatch({
                 action: LOGIN_FAILED,
-                payload: error.response?.data.msg,
+                payload: error.response.data.msg,
             });
+            return error.response.data.msg
         }
     };
 

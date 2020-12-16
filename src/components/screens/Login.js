@@ -6,7 +6,8 @@ import Spinner from '../Layout/Spinner';
 const Login = () => {
     const history = useHistory();
     const ContextUser = useContext(userContext);
-    const { loading, login, error, auth } = ContextUser;
+    const { login, error, auth } = ContextUser;
+    const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -21,21 +22,25 @@ const Login = () => {
     };
     const { email, password } = form;
     const handleLogin = async () => {
+        setError(null);
         if (!email || !password) {
             setError('Please, fill all the fields.');
+
             return;
         }
-        await login(form);
-        if (error) {
-            setError(error);
+        setLoading(true);
+        const result = await login(form);
+        setLoading(false);
+        if (result) {
+            setError(result);
             return;
         }
-        history.goBack()
+        history.goBack();
     };
 
     return auth ? (
         <Redirect to="/" />
-    ) : (   
+    ) : (
         <div className="card-m">
             <div className="card auth-card">
                 <h2 className="logo">Instagram</h2>
@@ -61,6 +66,7 @@ const Login = () => {
                     />
                     <label htmlFor="password">Password</label>
                 </div>
+                <p className="red-text">{error}</p>
                 <p className="red-text">{Lerror}</p>
                 {loading && <Spinner />}
 
