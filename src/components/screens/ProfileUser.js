@@ -72,6 +72,7 @@ const ProfileUser = () => {
     };
 
     const redirectToUserDetails = (users) => {
+        if(!auth) return;
         if(users.length === 0) return
         updateListUser(users);
         history.push(`/userlist`);
@@ -100,11 +101,16 @@ const ProfileUser = () => {
                             <p>@{username}</p>
                             {auth && (
                                 <button
-                                    className="btn blue"
+                                className={`btn waves-effect waves-light ${
+                                    user.following.includes(userID)
+                                        ? 'white black-text btn-f'
+                                        : 'blue btn-nf'
+                                }`
+                            }
                                     onClick={() => handleFollowUnfollow()}
                                 >
                                     {user.following.includes(userID)
-                                        ? 'Unfollow'
+                                        ? 'Following'
                                         : 'Follow'}
                                 </button>
                             )}

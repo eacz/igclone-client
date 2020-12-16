@@ -7,8 +7,9 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     MAINTAIN_SESSION,
+    UPDATE_PROFILE_INFO,
     UPDATE_USER,
-    UPDATE_USER_LIST
+    UPDATE_USER_LIST,
 } from '../types';
 import userContext from './userContext';
 import userReducer from './userReducer';
@@ -61,7 +62,6 @@ const UserState = (props) => {
         });
     };
 
-    //this is the user list that displays when likes, followers or following is clicked
     const updateUser = (user) => {
         dispatch({
             type: UPDATE_USER,
@@ -69,11 +69,18 @@ const UserState = (props) => {
         });
     };
 
+    const updateProfile = user => {
+        dispatch({
+        type: UPDATE_PROFILE_INFO,
+        payload: user
+        })
+    }
+    //this is the user list that displays when likes, followers or following is clicked
     const updateListUser = (users) => {
         dispatch({
             type: UPDATE_USER_LIST,
-            payload: users
-        })
+            payload: users,
+        });
     };
 
     return (
@@ -89,6 +96,7 @@ const UserState = (props) => {
                 logout,
                 maintainSession,
                 updateUser,
+                updateProfile,
                 updateListUser,
             }}
         >

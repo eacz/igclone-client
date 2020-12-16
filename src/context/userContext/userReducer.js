@@ -3,6 +3,7 @@ import {
     LOGIN_FAILED,
     LOGIN_SUCCESS,
     LOGOUT,
+    UPDATE_PROFILE_INFO,
     UPDATE_USER,
     UPDATE_USER_LIST,
 } from '../types';
@@ -41,6 +42,8 @@ export default (state, action) => {
             };
         case UPDATE_USER:
             return { ...state, user: {...state.user, following: action.payload.following}  };
+        case UPDATE_PROFILE_INFO: 
+            return {...state, user: {...state.user, description: action.payload.description, name: action.payload.name}}
         case UPDATE_USER_LIST:
             return {...state, listUserToDisplay: action.payload}
         default:

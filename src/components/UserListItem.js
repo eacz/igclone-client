@@ -4,13 +4,15 @@ import axiosClient from '../config/config';
 import userContext from '../context/userContext/userContext';
 
 const UserListItem = ({ userL }) => {
-    const history = useHistory()
-    const {auth, user, updateUser, } = useContext(userContext);
+    const history = useHistory();
+    const { auth, user, updateUser } = useContext(userContext);
 
-    
     const handleFollowUnfollow = async () => {
-        if(!auth) return;
-        const data = { userID: userL._id, follow: !user.following.includes(userL._id) };
+        if (!auth) return;
+        const data = {
+            userID: userL._id,
+            follow: !user.following.includes(userL._id),
+        };
         try {
             const res = await axiosClient.post('/user/follow', data);
             updateUser(res.data.user);
@@ -20,20 +22,22 @@ const UserListItem = ({ userL }) => {
     };
     return (
         <div className="userlist-item">
-            <div className="left" onClick={() => history.push(`/user/${userL._id}`)}>
+            <div
+                className="left"
+                onClick={() => history.push(`/user/${userL._id}`)}
+            >
                 <img src={userL.photo} alt={userL.username} />
                 <p>{userL.username}</p>
             </div>
             <div className="right">
-                {userL._id === user._id  && auth ? null : (
+                {userL._id === user._id && auth ? null : (
                     <button
-                        className={`btn  ${
+                        className={`btn waves-effect waves-light  ${
                             user.following.includes(userL._id)
                                 ? 'white black-text btn-f'
                                 : 'blue btn-nf'
-                        }`
-                    }
-                    onClick={() => handleFollowUnfollow()}
+                        }`}
+                        onClick={() => handleFollowUnfollow()}
                     >
                         {user.following.includes(userL._id)
                             ? 'Following'

@@ -7,7 +7,7 @@ import Spinner from '../Layout/Spinner';
 
 const ConfigProfile = () => {
     const history = useHistory()
-    const { user, updateUser } = useContext(userContext);
+    const { user, updateProfile } = useContext(userContext);
     const [actualInfo, setActualInfo] = useState({
         description: user.description,
         name: user.name,
@@ -28,7 +28,7 @@ const ConfigProfile = () => {
         setLoading(true);
         try {
             const res = await axiosClient.put('/user', actualInfo);
-            updateUser(res.data.user);
+            updateProfile(res.data.user);
             setLoading(false);
             history.push('/profile')
         } catch (error) {
@@ -51,6 +51,7 @@ const ConfigProfile = () => {
                             name="name"
                             value={name}
                             onChange={handleChange}
+                            placeholder="Name"
                         />
                     </div>
                     <div className="input-field">
@@ -60,6 +61,7 @@ const ConfigProfile = () => {
                             value={description}
                             onChange={handleChange}
                             className="materialize-textarea"
+                            placeholder="Tell the people a bit about yourself"
                         ></textarea>
                     </div>
                     {loading ? (
@@ -73,7 +75,7 @@ const ConfigProfile = () => {
                     <div className="btn-container">
                         <button
                             onClick={() => saveChanges()}
-                            className={`btn ${hasChanged ? '' : 'disabled'}`}
+                            className={`btn blue waves-effect waves-light ${hasChanged ? '' : 'disabled'}`}
                         >
                             Save Changes
                         </button>

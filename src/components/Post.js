@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import userContext from '../context/userContext/userContext';
 import { Link, useHistory } from 'react-router-dom';
+import axiosClient from '../config/config';
+import postContext from '../context/postsContext/postContext';
 
 const Post = ({
     photo,
@@ -11,15 +13,37 @@ const Post = ({
     likes,
     comments,
     created,
+    _id,
 }) => {
     const history = useHistory();
+    const [pLikes, setPLikes] = useState(likes);
     const contextUser = useContext(userContext);
-    const { auth, updateListUser } = contextUser;
-
+    const { auth, updateListUser, user: loggedUser } = contextUser;
+    const { updateLikes } = useContext(postContext);
     const redirectToUserDetails = (users) => {
+        if (!auth) return;
         if (users.length === 0) return;
         updateListUser(users);
         history.push(`/userlist`);
+    };
+
+    const handleLikeDislike = async () => {
+        if(!auth)return;
+        try {
+            await axiosClient.post(`/post/like/${_id}`);
+            pLikes.includes(loggedUser._id)
+                ? setPLikes(
+                      likes.filter((id) =>
+                          id.toString() === loggedUser._id.toString()
+                              ? null
+                              : id
+                      )
+                  )
+                : setPLikes([...pLikes, loggedUser._id]);
+            updateLikes(_id, loggedUser._id);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div className="post">
@@ -36,7 +60,14 @@ const Post = ({
             {auth && (
                 <div className="buttons">
                     <div className="principal">
-                        <i className="far fa-heart"></i>
+                        <i
+                            className={`${
+                                pLikes.includes(loggedUser._id)
+                                    ? 'fas red-text'
+                                    : 'far'
+                            } fa-heart`}
+                            onClick={() => handleLikeDislike()}
+                        ></i>
                         <i className="far fa-comment"></i>
                         <i className="far fa-paper-plane"></i>
                     </div>
@@ -45,10 +76,10 @@ const Post = ({
                 </div>
             )}
             <p
-                className={`likes ${likes.length > 0 ? 'pointer' : ''}`}
-                onClick={() => redirectToUserDetails(likes)}
+                className={`likes ${pLikes.length > 0 ? 'pointer' : ''}`}
+                onClick={() => redirectToUserDetails(pLikes)}
             >
-                {likes.length} Likes
+                {pLikes.length} Likes
             </p>
             <div className="post-body">
                 <span>{user.username}</span> {title}

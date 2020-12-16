@@ -37,7 +37,7 @@ function App() {
                         <PrivateRoute exact path="/profile" component={Profile} />
                         <PrivateRoute exact path="/profile/config" component={ConfigProfile} />
                         <PrivateRoute path="/newpost" component={CreatePost} />
-                        <Route to="/userlist" component={UsersList} />
+                        <PrivateRoute to="/userlist" component={UsersList} />
                         <Route path="/404" component={Page404} />
                         <Redirect to="/404" />
                     </Switch>

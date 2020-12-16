@@ -1,5 +1,5 @@
 import { useReducer } from "react"
-import { ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS } from "../types";
+import { ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, UPDATE_LIKES } from "../types";
 import postContext from "./postContext";
 import postReducer from "./postReducer"
 
@@ -24,6 +24,13 @@ const PostsState = (props) => {
         dispatch({type:CLEAR_POSTS})
     }
 
+    const updateLikes = (postID, userID) => {
+        dispatch({
+            type: UPDATE_LIKES,
+            payload: {postID, userID}
+        })
+    }
+
     return (
         <postContext.Provider value={{
             posts: state.posts,
@@ -31,7 +38,8 @@ const PostsState = (props) => {
             error: state.error,
             setInitialPosts,
             clearPosts,
-            setPostError
+            setPostError,
+            updateLikes
         }}>
             {props.children}
         </postContext.Provider>
