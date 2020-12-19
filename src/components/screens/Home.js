@@ -11,7 +11,7 @@ const Home = () => {
     const history = useHistory();
     const contextUser = useContext(userContext);
     const { auth } = contextUser;
-    const { setInitialPosts, loading, error, setPostError } = useContext(postContext);
+    const { setInitialPosts, loading, setPostError } = useContext(postContext);
     useEffect(() => {
         const fetchHomePosts = async () => {
             try {

@@ -21,7 +21,7 @@ const Navbar = () => {
                         <i className="fas fa-home"></i>
                     </NavLink>
                     <NavLink to="/newpost">
-                        <i className="fas fa-plus blue-text"></i>
+                        <i className="fas fa-plus"></i>
                     </NavLink>
                     <NavLink to="/profile">
                         <img src={user.photo} alt="profile" />

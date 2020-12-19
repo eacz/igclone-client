@@ -8,7 +8,7 @@ import UserListItem from '../UserListItem';
 
 const UsersList = () => {
     const history = useHistory();
-    const { listUserToDisplay, updateListUser } = useContext(userContext);
+    const { listUserToDisplay, /*updateListUser*/ } = useContext(userContext);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -26,10 +26,11 @@ const UsersList = () => {
             }
         };
         fetchUsersDetails();
+        /*
         return function cleanup() {
             setUsers([]);
             updateListUser([])
-        }
+        }*/
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listUserToDisplay]);
     return (
