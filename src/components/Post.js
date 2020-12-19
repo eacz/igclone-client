@@ -5,6 +5,7 @@ import { Link, useHistory} from 'react-router-dom';
 import axiosClient from '../config/config';
 import postContext from '../context/postsContext/postContext';
 import ShareModal from './ShareModal';
+import Comments from './Comments';
 
 const Post = ({
     photo,
@@ -95,14 +96,8 @@ const Post = ({
                     {title}
                     <p>{body}</p>
                 </div>
-                {comments && (
-                    <div className="comments">
-                        {comments.map((comment) => (
-                            <p key={comment._id}>
-                                <span>{comment.user}</span> {comment.comment}
-                            </p>
-                        ))}
-                    </div>
+                {comments.length > 0 && (
+                   <Comments comments={comments} post={_id} />
                 )}
 
                 <p className="posted">{moment(created).fromNow()}</p>

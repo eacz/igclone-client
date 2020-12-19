@@ -5,6 +5,7 @@ import {
     ADD_POSTS_FAILED,
     ADD_POSTS_SUCCESS,
     CLEAR_POSTS,
+    SET_POST_COMMENTS_TO_FETCH,
     UPDATE_LIKES,
 } from '../types';
 
@@ -22,13 +23,15 @@ export default (state, action) => {
             const postsUpdated = state.posts.filter((post) =>
                 post._id === action.payload.postID // first search for the specified post
                     ? post.likes.includes(action.payload.userID) //if the user already likes the post
-                        ? (post.likes = post.likes.filter((id) =>
-                              id === action.payload.userID ? null : id // the user's id is removed
+                        ? (post.likes = post.likes.filter(
+                              (id) => (id === action.payload.userID ? null : id) // the user's id is removed
                           ))
                         : post.likes.push(action.payload.userID) // if not, is added
                     : post
             );
             return { ...state, posts: postsUpdated };
+        case SET_POST_COMMENTS_TO_FETCH:
+            return {...state, postCommentsToFetch:action.payload}
         default:
             return state;
     }

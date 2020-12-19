@@ -1,5 +1,5 @@
 import { useReducer } from "react"
-import { ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, UPDATE_LIKES } from "../types";
+import { ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, SET_POST_COMMENTS_TO_FETCH, UPDATE_LIKES } from "../types";
 import postContext from "./postContext";
 import postReducer from "./postReducer"
 
@@ -7,7 +7,8 @@ const PostsState = (props) => {
     const initialState = {
         posts: [],
         loading: true,
-        error: null
+        error: null,
+        postCommentsToFetch: null
     }
 
     const [state, dispatch] = useReducer(postReducer, initialState);
@@ -31,15 +32,25 @@ const PostsState = (props) => {
         })
     }
 
+    const setCommentsToFetch = postID => {
+        dispatch({
+            type: SET_POST_COMMENTS_TO_FETCH,
+            payload: postID
+        })
+    }
+
     return (
         <postContext.Provider value={{
             posts: state.posts,
             loading: state.loading,
             error: state.error,
+            postCommentsToFetch: state.postCommentsToFetch,
             setInitialPosts,
             clearPosts,
             setPostError,
-            updateLikes
+            updateLikes,
+            setCommentsToFetch
+            
         }}>
             {props.children}
         </postContext.Provider>

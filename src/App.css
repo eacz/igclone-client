@@ -241,9 +241,6 @@ input:focus {
     font-weight: 700;
 }
 
-.comments span {
-    font-weight: 700;
-}
 
 .post .posted {
     color: #b3b3b3;
@@ -510,11 +507,11 @@ input:focus {
     margin: 0 auto;
     max-width: 600px;
 }
-.userlist .go-back {
+.go-back {
     cursor: pointer;
 }
 
-.userlist .go-back:hover {
+.go-back:hover {
     text-decoration: underline;
 }
 
@@ -643,3 +640,60 @@ input:focus {
     cursor: pointer;
 }
 
+.comments , .comments-post{
+    padding: 0 .5rem;
+}
+
+.comments a, .comments-post a{
+    color: #000;
+    font-weight: 700;
+    margin-right: .3rem;
+}
+
+.all-comments {
+    color: #b3b3b3 !important;
+    padding: 0 !important;
+    font-weight: 400 !important;
+}
+
+.all-comments:hover {
+    cursor: pointer;
+}
+
+.comments-list {
+    padding: 0.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.comment-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment-detail-item .left {
+    display: flex;
+    align-items: center;
+}
+
+.comment-detail-item .left img{
+    width: 40px;
+    height: 40px;
+    border-radius: 80px;
+}
+
+.comment-detail-item .left p {
+    margin-left: .3rem;
+}
+
+.comment-detail-item .left p a {
+    color: #000;
+    font-weight: 700;
+    margin-right: .3rem;
+}

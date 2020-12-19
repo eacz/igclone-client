@@ -20,6 +20,7 @@ import Page404 from './components/screens/Page404';
 import PostsState from './context/postsContext/postState';
 import ConfigProfile from './components/screens/ConfigProfile';
 import UsersList from './components/screens/UsersList';
+import CommentsScreenList from './components/screens/CommentsScreenList';
 function App() {
     const token = localStorage.getItem('ig-token');
     authToken(token);
@@ -29,7 +30,8 @@ function App() {
             <PostsState>
                 <Router>
                     <Switch>
-                        <Route path="/post/:postID" component={PostDetails} />
+                        <Route exact path="/post/:postID" component={PostDetails} />
+                        <Route exact path="/post/:postID/comments" component={CommentsScreenList}/>
                         <Route exact path="/" component={Home} />
                         <Route path="/login" component={Login} />
                         <Route path="/signup" component={Signup} />
@@ -37,7 +39,8 @@ function App() {
                         <PrivateRoute exact path="/profile" component={Profile} />
                         <PrivateRoute exact path="/profile/config" component={ConfigProfile} />
                         <PrivateRoute path="/newpost" component={CreatePost} />
-                        <PrivateRoute to="/userlist" component={UsersList} />
+                        <PrivateRoute path="/userlist" component={UsersList} />
+                        
                         <Route path="/404" component={Page404} />
                         <Redirect to="/404" />
                     </Switch>
