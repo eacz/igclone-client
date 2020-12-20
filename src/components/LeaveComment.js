@@ -2,13 +2,12 @@ import React, { useContext, useState } from 'react';
 import axiosClient from '../config/config';
 import postContext from '../context/postsContext/postContext';
 
-const LeaveComment = ({ postID, setPComments }) => {
+const LeaveComment = ({ postID, setPComments , inputRef}) => {
     const { addComment } = useContext(postContext);
     const [comment, setComment] = useState('');
 
     const postComment = async () => {
         if (! comment.trim()) return;
-        console.log('here');
 
         try {
             const data = await axiosClient.post('/comment', {postID, comment});
@@ -28,6 +27,7 @@ const LeaveComment = ({ postID, setPComments }) => {
                 placeholder="Leave a comment"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
+                ref={inputRef}
             />
             <p
                 className={`${comment.trim() ? 'blue-text pointer' : 'grey-text'}`}

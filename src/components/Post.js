@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import moment from 'moment';
 import userContext from '../context/userContext/userContext';
 import { Link, useHistory } from 'react-router-dom';
@@ -20,9 +20,10 @@ const Post = ({
     _id,
 }) => {
     const history = useHistory();
+    const commentInput = useRef(null);
     const [pLikes, setPLikes] = useState(likes);
-    const [showShare, setShowShare] = useState(false)
-    const [showOptions, setShowOptions] = useState(false)
+    const [showShare, setShowShare] = useState(false);
+    const [showOptions, setShowOptions] = useState(false);
     const contextUser = useContext(userContext);
     const { auth, updateListUser, user: loggedUser } = contextUser;
     const { updateLikes } = useContext(postContext);
@@ -53,7 +54,18 @@ const Post = ({
         }
     };
 
-    
+    const handleFocusInput = () => {
+        commentInput.current.focus();
+    };
+
+    const handleDeletePost = async () => {
+        try {
+            await axiosClient.delete(`/post/${_id}`);
+            history.push('/profile');
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
@@ -65,7 +77,10 @@ const Post = ({
                             <p>{user.username}</p>
                         </div>
                     </Link>
-                    <i className="fas fa-ellipsis-h"  onClick={() => setShowOptions(true)}></i>
+                    <i
+                        className="fas fa-ellipsis-h"
+                        onClick={() => setShowOptions(true)}
+                    ></i>
                 </div>
                 <img src={photo} alt="phot" />
                 {auth && (
@@ -79,7 +94,10 @@ const Post = ({
                                 } fa-heart`}
                                 onClick={() => handleLikeDislike()}
                             ></i>
-                            <i className="far fa-comment"></i>
+                            <i
+                                className="far fa-comment"
+                                onClick={handleFocusInput}
+                            ></i>
                             <i
                                 className="far fa-paper-plane"
                                 onClick={() => setShowShare(true)}
@@ -108,7 +126,11 @@ const Post = ({
 
                 <p className="posted">{moment(created).fromNow()}</p>
                 {auth && (
-                    <LeaveComment postID={_id} setPComments={setPComments} />
+                    <LeaveComment
+                        inputRef={commentInput}
+                        postID={_id}
+                        setPComments={setPComments}
+                    />
                 )}
             </div>
 
@@ -131,12 +153,32 @@ const Post = ({
                     onClick={() => copyToClipboard()}
                 ></i>
             </Modal>
-        
-            <Modal showModal={showOptions} setShowModal={setShowOptions} title="Options">
+
+            <Modal
+                showModal={showOptions}
+                setShowModal={setShowOptions}
+                title="Options"
+            >
+                {auth && user._id === loggedUser._id ? (
+                    <p
+                        className="red-text pointer"
+                        onClick={() => handleDeletePost()}
+                    >
+                        Delete Post
+                    </p>
+                ) : loggedUser.following.includes(user._id) ? (
                     <p className="red-text pointer">Unfollow</p>
-                    <Link className="black-text" to={`/post/${_id}`}>Go to the post</Link>
-                    <p className="pointer" onClick={() => copyToClipboard()}>Copy link</p>
-                    <p className="pointer" onClick={() => setShowOptions(false)}>Cancel</p>
+                ) : null}
+
+                <Link className="black-text" to={`/post/${_id}`}>
+                    Go to the post
+                </Link>
+                <p className="pointer" onClick={() => copyToClipboard()}>
+                    Copy link
+                </p>
+                <p className="pointer" onClick={() => setShowOptions(false)}>
+                    Cancel
+                </p>
             </Modal>
         </>
     );

@@ -156,6 +156,10 @@ input:focus {
 }
 
 /*profile configuration*/
+.configuration {
+    max-width: 600px;
+    margin: 0 auto;
+}
 .configuration h2 {
     font-size: 2rem;
     text-align: center;
