@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import userContext from '../context/userContext/userContext';
-import { Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axiosClient from '../config/config';
 import postContext from '../context/postsContext/postContext';
-import ShareModal from './ShareModal';
 import Comments from './Comments';
 import LeaveComment from './LeaveComment';
+import Modal from './Layout/Modal';
+import { copyToClipboard } from '../shared/helpers';
 
 const Post = ({
     photo,
@@ -20,11 +21,12 @@ const Post = ({
 }) => {
     const history = useHistory();
     const [pLikes, setPLikes] = useState(likes);
-    const [showModal, setShowModal] = useState(false);
+    const [showShare, setShowShare] = useState(false)
+    const [showOptions, setShowOptions] = useState(false)
     const contextUser = useContext(userContext);
     const { auth, updateListUser, user: loggedUser } = contextUser;
     const { updateLikes } = useContext(postContext);
-    const [pComments, setPComments] = useState(comments)
+    const [pComments, setPComments] = useState(comments);
     const redirectToUserDetails = (users) => {
         if (!auth) return;
         if (users.length === 0) return;
@@ -51,6 +53,8 @@ const Post = ({
         }
     };
 
+    
+
     return (
         <>
             <div className="post">
@@ -61,7 +65,7 @@ const Post = ({
                             <p>{user.username}</p>
                         </div>
                     </Link>
-                    <i className="fas fa-ellipsis-h"></i>
+                    <i className="fas fa-ellipsis-h"  onClick={() => setShowOptions(true)}></i>
                 </div>
                 <img src={photo} alt="phot" />
                 {auth && (
@@ -78,7 +82,7 @@ const Post = ({
                             <i className="far fa-comment"></i>
                             <i
                                 className="far fa-paper-plane"
-                                onClick={() => setShowModal(true)}
+                                onClick={() => setShowShare(true)}
                             ></i>
                         </div>
 
@@ -99,7 +103,7 @@ const Post = ({
                     <p>{body}</p>
                 </div>
                 {pComments.length > 0 && (
-                   <Comments comments={pComments} post={_id} />
+                    <Comments comments={pComments} post={_id} />
                 )}
 
                 <p className="posted">{moment(created).fromNow()}</p>
@@ -108,12 +112,32 @@ const Post = ({
                 )}
             </div>
 
-            <ShareModal
-                msg="Share this post!"
-                link={`https://igclone-client.vercel.app/post/${_id}`}
-                showModal={showModal}
-                setShowModal={setShowModal}
-            />
+            <Modal
+                showModal={showShare}
+                setShowModal={setShowShare}
+                title="Share this post!"
+                additionalClasses="modal-body-share"
+            >
+                <input
+                    onClick={() => copyToClipboard()}
+                    id="link-to-share"
+                    type="text"
+                    value={`https://igclone-client.vercel.app/post/${_id}`}
+                    readOnly
+                />
+
+                <i
+                    className="far fa-clipboard"
+                    onClick={() => copyToClipboard()}
+                ></i>
+            </Modal>
+        
+            <Modal showModal={showOptions} setShowModal={setShowOptions} title="Options">
+                    <p className="red-text pointer">Unfollow</p>
+                    <Link className="black-text" to={`/post/${_id}`}>Go to the post</Link>
+                    <p className="pointer" onClick={() => copyToClipboard()}>Copy link</p>
+                    <p className="pointer" onClick={() => setShowOptions(false)}>Cancel</p>
+            </Modal>
         </>
     );
 };

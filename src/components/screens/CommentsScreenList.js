@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axiosClient from '../../config/config';
 import postContext from '../../context/postsContext/postContext';
-import CommentDetail from '../CommentDetail';
+import Comments from '../Comments';
 import Header from '../Layout/Header';
 import Spinner from '../Layout/Spinner';
 
@@ -55,7 +55,7 @@ const CommentsScreenList = () => {
                 </p>
                 <p className="error">{error}</p>
                 <div className="comment-detail">
-                    {comments.map(comment => (<CommentDetail key={comment._id} comment={comment} />))}
+                    <Comments comments={comments} detail={true} />
                 </div>
                 
             </div>

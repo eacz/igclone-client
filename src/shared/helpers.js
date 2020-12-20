@@ -24,3 +24,15 @@ export const validatePasswordAndEmail = (password, email) => {
     return error;
 };
 
+
+
+export const copyToClipboard = () => {
+    const copyText = document.getElementById('link-to-share');
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    document.execCommand('copy');
+};
