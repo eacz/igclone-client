@@ -19,7 +19,6 @@ const CommentsScreenList = () => {
                 const data = await axiosClient(
                     `/comment/${postCommentsToFetch}`
                 );
-                console.log(data);
                 setComments(data.data.comments);
                 setLoading(false);
             } catch (error) {

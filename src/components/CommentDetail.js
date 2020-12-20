@@ -16,7 +16,12 @@ const CommentDetail = ({ comment }) => {
                 </p>
             </div>
             <div className="right">
-                {comment.postedBy._id === user._id && <i className="far fa-edit"></i>}
+                {comment.postedBy._id === user._id && 
+                <>
+                <i className="far red-text fa-trash-alt"></i>
+                <i className="far fa-edit"></i>
+                </>
+                }
                 {/* TODO: add the functionality */}
             </div>
         </div>

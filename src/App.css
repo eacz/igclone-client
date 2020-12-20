@@ -265,7 +265,6 @@ input:focus {
 
 .post .leave-comment p {
     font-size: 1.2rem;
-    cursor: pointer;
 }
 
 .no-post {
@@ -696,4 +695,13 @@ input:focus {
     color: #000;
     font-weight: 700;
     margin-right: .3rem;
+}
+
+.comment-detail-item .right i {
+    font-size: 1.1rem;
+    margin-left: .3rem;
+}
+
+.comment-detail-item .right i:hover {
+    cursor: pointer;
 }

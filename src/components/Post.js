@@ -6,6 +6,7 @@ import axiosClient from '../config/config';
 import postContext from '../context/postsContext/postContext';
 import ShareModal from './ShareModal';
 import Comments from './Comments';
+import LeaveComment from './LeaveComment';
 
 const Post = ({
     photo,
@@ -23,6 +24,7 @@ const Post = ({
     const contextUser = useContext(userContext);
     const { auth, updateListUser, user: loggedUser } = contextUser;
     const { updateLikes } = useContext(postContext);
+    const [pComments, setPComments] = useState(comments)
     const redirectToUserDetails = (users) => {
         if (!auth) return;
         if (users.length === 0) return;
@@ -96,16 +98,13 @@ const Post = ({
                     {title}
                     <p>{body}</p>
                 </div>
-                {comments.length > 0 && (
-                   <Comments comments={comments} post={_id} />
+                {pComments.length > 0 && (
+                   <Comments comments={pComments} post={_id} />
                 )}
 
                 <p className="posted">{moment(created).fromNow()}</p>
                 {auth && (
-                    <div className="leave-comment">
-                        <input type="text" placeholder="Leave a comment" />
-                        <p className="blue-text">Post</p>
-                    </div>
+                    <LeaveComment postID={_id} setPComments={setPComments} />
                 )}
             </div>
 

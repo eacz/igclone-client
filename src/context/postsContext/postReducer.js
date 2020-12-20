@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 
 import {
+    ADD_COMMENT,
     ADD_POSTS,
     ADD_POSTS_FAILED,
     ADD_POSTS_SUCCESS,
@@ -31,7 +32,14 @@ export default (state, action) => {
             );
             return { ...state, posts: postsUpdated };
         case SET_POST_COMMENTS_TO_FETCH:
-            return {...state, postCommentsToFetch:action.payload}
+            return { ...state, postCommentsToFetch: action.payload };
+        case ADD_COMMENT:
+            const postsUpd = state.posts.filter((post) =>
+                post._id === action.payload.post
+                    ? post.comments.push(action.payload)
+                    : post
+            );
+            return { ...state, posts: postsUpd };
         default:
             return state;
     }
