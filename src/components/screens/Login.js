@@ -85,6 +85,12 @@ const Login = () => {
                         Sign up
                     </Link>
                 </h6>
+                <h6>
+                    Forgot your password? {' '}
+                    <Link className="blue-text" to="/forgot-password">
+                        Reset your password
+                    </Link>
+                </h6>
             </div>
         </div>
     );

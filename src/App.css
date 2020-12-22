@@ -30,9 +30,48 @@
 }
 
 .navbar-m a i {
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #2c2c2c;
 }
+
+.navbar-m .search, .search-page {
+    display: none;
+    max-width: 200px;
+    background-color: #f3f3f3 !important;
+    border-radius: 5px !important;
+    border: 1px solid #e1e1e1 !important;
+    margin: 0 !important;
+    height: 2rem !important;
+    font-size: 1rem;
+    text-align: center;
+    transition: all .3s ease-in-out;
+}
+
+.navbar-m  .search-page {
+    display: block;
+}
+
+
+.navbar-m .search:focus {
+    text-align: start!important;
+    transition: all .3s ease-in-out;
+}
+
+
+@media (min-width: 768px) {
+    .navbar-m .search {
+        display: block;
+    }
+    .navbar-m .fa-search {
+        display: none;
+    }
+}
+
+.search-p {
+    text-align: center;
+    color: #b3b3b3;
+}
+
 
 .card-m {
     margin-top: 2rem;
@@ -160,6 +199,18 @@ input:focus {
     max-width: 600px;
     margin: 0 auto;
 }
+
+.configuration .options {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.configuration .options a {
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
 .configuration h2 {
     font-size: 2rem;
     text-align: center;
@@ -244,7 +295,6 @@ input:focus {
     padding-left: 0.5rem;
     font-weight: 700;
 }
-
 
 .post .posted {
     color: #b3b3b3;
@@ -643,14 +693,16 @@ input:focus {
     cursor: pointer;
 }
 
-.comments , .comments-post{
-    padding: 0 .5rem;
+.comments,
+.comments-post {
+    padding: 0 0.5rem;
 }
 
-.comments a, .comments-post a{
+.comments a,
+.comments-post a {
     color: #000;
     font-weight: 700;
-    margin-right: .3rem;
+    margin-right: 0.3rem;
 }
 
 .all-comments {
@@ -685,25 +737,25 @@ input:focus {
     align-items: center;
 }
 
-.comment-detail-item .left img{
+.comment-detail-item .left img {
     width: 40px;
     height: 40px;
     border-radius: 80px;
 }
 
 .comment-detail-item .left p {
-    margin-left: .3rem;
+    margin-left: 0.3rem;
 }
 
 .comment-detail-item .left p a {
     color: #000;
     font-weight: 700;
-    margin-right: .3rem;
+    margin-right: 0.3rem;
 }
 
 .comment-detail-item .right i {
     font-size: 1.1rem;
-    margin-left: .3rem;
+    margin-left: 0.3rem;
 }
 
 .comment-detail-item .right i:hover {

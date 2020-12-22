@@ -108,7 +108,7 @@ const Post = ({
                     </div>
                 )}
                 <p
-                    className={`likes ${pLikes.length > 0 ? 'pointer' : ''}`}
+                    className={`likes ${pLikes.length > 0 && auth ? 'pointer' : ''}`}
                     onClick={() => redirectToUserDetails(pLikes)}
                 >
                     {pLikes.length} Likes
@@ -166,7 +166,7 @@ const Post = ({
                     >
                         Delete Post
                     </p>
-                ) : loggedUser.following.includes(user._id) ? (
+                ) : loggedUser?.following.includes(user._id) ? (
                     <p className="red-text pointer">Unfollow</p>
                 ) : null}
 

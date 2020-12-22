@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import userContext from '../context/userContext/userContext';
 
 const CommentDetail = ({ comment }) => {
-    const {user} = useContext(userContext)
+    const { auth, user } = useContext(userContext);
     return (
         <div className="comment-detail-item">
             <div className="left">
@@ -16,12 +16,14 @@ const CommentDetail = ({ comment }) => {
                 </p>
             </div>
             <div className="right">
-                {comment.postedBy._id === user._id && 
-                <>
-                <i className="far red-text fa-trash-alt"></i>
-                <i className="far fa-edit"></i>
-                </>
-                }
+                {auth
+                    ? comment.postedBy._id === user._id && (
+                          <>
+                              <i className="far red-text fa-trash-alt"></i>
+                              <i className="far fa-edit"></i>
+                          </>
+                      )
+                    : null}
                 {/* TODO: add the functionality */}
             </div>
         </div>

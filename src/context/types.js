@@ -17,3 +17,10 @@ export const CLEAR_POSTS = 'CLEAR_POSTS'
 export const UPDATE_LIKES = 'UPDATE_LIKES'
 export const SET_POST_COMMENTS_TO_FETCH = 'SET_POST_COMMENTS_TO_FETCH'
 export const ADD_COMMENT = 'ADD_COMMENT'
+
+//search context
+export const START_SEARCH = 'START_SEARCH'
+export const CLEAR_SEARCH = 'CLEAR_SEARCH'
+export const SEARCH_SUCCESS = 'SEARCH_SUCCESS'
+export const SEARCH_FAILED = 'SEARCH_FAILED'
+export const SEARCH_EMPTY = 'SEARCH_EMPTY'

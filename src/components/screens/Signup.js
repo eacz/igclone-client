@@ -29,7 +29,9 @@ const Signup = () => {
         photoURL,
     } = form;
     useEffect(() => {
-        if (!photoURL) return;
+        console.log('error');
+        setLoading(false)
+        if (!photoURL || Lerror) return;
         const postToServer = async () => {
             setLoading(true);
             try {
@@ -37,7 +39,7 @@ const Signup = () => {
                 const data = await axiosClient.post('/auth/signup', {
                     ...form,
                     photo: form.photoURL,
-                });
+                })
                 setError(null);
                 setLoading(false);
                 history.push('/login');
@@ -71,6 +73,7 @@ const Signup = () => {
             setError(result);
             return;
         }
+        setError(null)
         setLoading(true);
         if (photo) {
             const data = new FormData();

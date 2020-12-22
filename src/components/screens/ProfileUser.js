@@ -121,11 +121,11 @@ const ProfileUser = () => {
                                 </h5>
                                 <h5 className="black-text">
                                     {followers.length + ' '}
-                                    <span className={`grey-text ${followers.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(followers)}>followers</span>
+                                    <span className={`grey-text ${followers.length  > 0 && auth ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(followers)}>followers</span>
                                 </h5>
                                 <h5 className="black-text">
                                     {following.length + ' '}
-                                    <span className={`grey-text ${following.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(following)}>following</span>
+                                    <span className={`grey-text ${following.length  > 0 && auth ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(following)}>following</span>
                                 </h5>
                             </div>
                         </div>
@@ -140,11 +140,11 @@ const ProfileUser = () => {
                             </h5>
                             <h5 className="black-text">
                                 {followers.length + ' '}{' '}
-                                <span className={`grey-text ${followers.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(followers)}>followers</span>
+                                <span className={`grey-text ${followers.length > 0 && auth ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(followers)}>followers</span>
                             </h5>
                             <h5 className="black-text">
                                 {following.length + ' '}
-                                <span className={`grey-text ${following.length > 0 ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(following)}>following</span>
+                                <span className={`grey-text ${following.length > 0 && auth ? 'pointer' : ''}`} onClick={() => redirectToUserDetails(following)}>following</span>
                             </h5>
                         </div>
                         <p>{error}</p>
