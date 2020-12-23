@@ -68,6 +68,9 @@ const Navbar = () => {
                             id="search"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
+                            autoCapitalize="none"
+                            autoComplete="off"
+                            autoCorrect="off"
                         />
                     </form>
                     <NavLink to="/">

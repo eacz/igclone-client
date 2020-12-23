@@ -1,10 +1,14 @@
 import React from 'react'
+import Header from './Layout/Header'
 
 const ForgotPassword = () => {
     return (
+        <>
+        <Header />
         <div>
-            forgot password
+            <p>Not implemented yet, fuck off</p>
         </div>
+        </>
     )
 }
 
