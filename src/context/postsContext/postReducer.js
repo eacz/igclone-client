@@ -6,6 +6,7 @@ import {
     ADD_POSTS_FAILED,
     ADD_POSTS_SUCCESS,
     CLEAR_POSTS,
+    DELETE_COMMENT,
     SET_POST_COMMENTS_TO_FETCH,
     UPDATE_LIKES,
 } from '../types';
@@ -40,6 +41,10 @@ export default (state, action) => {
                     : post
             );
             return { ...state, posts: postsUpd };
+        case DELETE_COMMENT:
+            const postToModify = state.posts.find(post => post._id === action.payload.post)
+            postToModify.comments = postToModify.comments.filter(comment => comment._id === action.payload._id ? null : comment)
+            return {...state, posts: state.posts.filter(post => post._id === postToModify._id ? postToModify  : post)}
         default:
             return state;
     }

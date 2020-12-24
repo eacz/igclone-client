@@ -17,6 +17,7 @@ export const CLEAR_POSTS = 'CLEAR_POSTS'
 export const UPDATE_LIKES = 'UPDATE_LIKES'
 export const SET_POST_COMMENTS_TO_FETCH = 'SET_POST_COMMENTS_TO_FETCH'
 export const ADD_COMMENT = 'ADD_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 
 //search context
 export const START_SEARCH = 'START_SEARCH'

@@ -1,5 +1,6 @@
 import { useReducer } from "react"
-import { ADD_COMMENT, ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, SET_POST_COMMENTS_TO_FETCH, UPDATE_LIKES } from "../types";
+import axiosClient from "../../config/config";
+import { ADD_COMMENT, ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, DELETE_COMMENT, SET_POST_COMMENTS_TO_FETCH, UPDATE_LIKES } from "../types";
 import postContext from "./postContext";
 import postReducer from "./postReducer"
 
@@ -46,6 +47,15 @@ const PostsState = (props) => {
         })
     }
 
+    const deleteComment = async comment => {
+        try {
+          await axiosClient.delete(`/comment/${comment._id}`);
+          dispatch({type:DELETE_COMMENT, payload: comment})
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <postContext.Provider value={{
             posts: state.posts,
@@ -57,7 +67,8 @@ const PostsState = (props) => {
             setPostError,
             updateLikes,
             setCommentsToFetch,
-            addComment
+            addComment,
+            deleteComment
             
         }}>
             {props.children}

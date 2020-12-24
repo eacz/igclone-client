@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import postContext from '../context/postsContext/postContext';
 import Comment from './Comment';
@@ -7,6 +7,7 @@ import CommentDetail from './CommentDetail';
 const Comments = ({ comments, detail, post }) => {
     const history = useHistory()
     const {setCommentsToFetch} = useContext(postContext);
+    const [commentsL, setCommentsL] = useState(comments)
 
     const redirectToCommentsList = () => {
         setCommentsToFetch(post);
@@ -14,8 +15,8 @@ const Comments = ({ comments, detail, post }) => {
     }
     return detail ? (
         <div className="comments">
-            {comments.map((comment) => (
-                <CommentDetail key={comment._id} comment={comment} />
+            {commentsL.map((comment) => (
+                <CommentDetail setComments={setCommentsL} key={comment._id} comment={comment} />
             ))}
         </div>
     ) : (

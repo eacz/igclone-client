@@ -1,19 +1,20 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import searchContext from '../context/searchContext/searchContext';
 import Header from './Layout/Header';
 import Spinner from './Layout/Spinner';
 import UserListItem from './UserListItem';
 
 const Search = () => {
-    const { usersSearch, clearSearch, loading, msg, error } = useContext(
+    const { usersSearch, loading, msg, error } = useContext(
         searchContext
     );
+    /* no cleanup bc you can't go back on the users search
     useEffect(() => {
         return () => {
             clearSearch();
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, []); */
     return (
         <>
             <Header />
