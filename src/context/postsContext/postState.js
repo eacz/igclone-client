@@ -1,6 +1,6 @@
 import { useReducer } from "react"
 import axiosClient from "../../config/config";
-import { ADD_COMMENT, ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, DELETE_COMMENT, SET_POST_COMMENTS_TO_FETCH, UPDATE_LIKES } from "../types";
+import { ADD_COMMENT, ADD_POSTS_FAILED, ADD_POSTS_SUCCESS, CLEAR_POSTS, DELETE_COMMENT, SET_POST_COMMENTS_TO_FETCH, SET_REFETCH, UPDATE_LIKES } from "../types";
 import postContext from "./postContext";
 import postReducer from "./postReducer"
 
@@ -9,7 +9,8 @@ const PostsState = (props) => {
         posts: [],
         loading: true,
         error: null,
-        postCommentsToFetch: null
+        postCommentsToFetch: null,
+        refetch: false,
     }
 
     const [state, dispatch] = useReducer(postReducer, initialState);
@@ -56,19 +57,25 @@ const PostsState = (props) => {
         }
     }
 
+    const refetchPosts = () => {
+        dispatch({type: SET_REFETCH})
+    }
+
     return (
         <postContext.Provider value={{
             posts: state.posts,
             loading: state.loading,
             error: state.error,
             postCommentsToFetch: state.postCommentsToFetch,
+            refetch: state.refetch,
             setInitialPosts,
             clearPosts,
             setPostError,
             updateLikes,
             setCommentsToFetch,
             addComment,
-            deleteComment
+            deleteComment,
+            refetchPosts
             
         }}>
             {props.children}

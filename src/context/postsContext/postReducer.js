@@ -8,6 +8,7 @@ import {
     CLEAR_POSTS,
     DELETE_COMMENT,
     SET_POST_COMMENTS_TO_FETCH,
+    SET_REFETCH,
     UPDATE_LIKES,
 } from '../types';
 
@@ -45,6 +46,8 @@ export default (state, action) => {
             const postToModify = state.posts.find(post => post._id === action.payload.post)
             postToModify.comments = postToModify.comments.filter(comment => comment._id === action.payload._id ? null : comment)
             return {...state, posts: state.posts.filter(post => post._id === postToModify._id ? postToModify  : post)}
+        case SET_REFETCH:
+            return {...state, refetch: !state.refetch}
         default:
             return state;
     }

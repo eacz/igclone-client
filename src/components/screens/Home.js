@@ -11,7 +11,7 @@ const Home = () => {
     const history = useHistory();
     const contextUser = useContext(userContext);
     const { auth } = contextUser;
-    const { setInitialPosts, loading, setPostError } = useContext(postContext);
+    const { setInitialPosts, loading, setPostError, refetch } = useContext(postContext);
     useEffect(() => {
         const fetchHomePosts = async () => {
             try {
@@ -24,7 +24,7 @@ const Home = () => {
         };
         fetchHomePosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [refetch]);
 
     if (!auth) history.push('/login');
     return loading ? (

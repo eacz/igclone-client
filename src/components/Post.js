@@ -25,8 +25,8 @@ const Post = ({
     const [showShare, setShowShare] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const contextUser = useContext(userContext);
-    const { auth, updateListUser, user: loggedUser } = contextUser;
-    const { updateLikes } = useContext(postContext);
+    const { auth, updateListUser, user: loggedUser, updateUser } = contextUser;
+    const { updateLikes,refetchPosts } = useContext(postContext);
     const [pComments, setPComments] = useState(comments);
     const redirectToUserDetails = (users) => {
         if (!auth) return;
@@ -62,6 +62,18 @@ const Post = ({
         try {
             await axiosClient.delete(`/post/${_id}`);
             history.push('/profile');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleUnfollow = async () => {
+        const data = { userID: user._id, follow: false };
+        try {
+            const res = await axiosClient.post('/user/follow', data);
+            updateUser(res.data.user);
+            refetchPosts();
+            setShowOptions(false)
         } catch (error) {
             console.log(error);
         }
@@ -167,15 +179,16 @@ const Post = ({
                         Delete Post
                     </p>
                 ) : loggedUser?.following.includes(user._id) ? (
-                    <p className="red-text pointer">Unfollow</p>
+                    <p className="red-text pointer" onClick={() => handleUnfollow()}>Unfollow</p>
                 ) : null}
 
                 <Link className="black-text" to={`/post/${_id}`}>
                     Go to the post
                 </Link>
-                <p className="pointer" onClick={() => copyToClipboard()}>
-                    Copy link
-                </p>
+                <p><Link className="black-text" to={`/user/${user._id}`}>
+                    Go to profile
+                </Link></p>
+                
                 <p className="pointer" onClick={() => setShowOptions(false)}>
                     Cancel
                 </p>
