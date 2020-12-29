@@ -14,6 +14,9 @@ const ConfigProfile = () => {
                     <Link to="/profile/config/reset-password">
                         Reset Password
                     </Link>
+                    <Link to="/posts_saved">
+                        Posts saved
+                    </Link>
                 </div>
             </div>
         </>

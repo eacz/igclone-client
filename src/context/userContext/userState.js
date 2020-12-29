@@ -7,6 +7,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     MAINTAIN_SESSION,
+    UPDATE_POSTS_SAVED,
     UPDATE_PROFILE_INFO,
     UPDATE_USER,
     UPDATE_USER_LIST,
@@ -77,6 +78,10 @@ const UserState = (props) => {
         payload: user
         })
     }
+
+    const updatePostsSaved = (isSaved, postID) => {
+        dispatch({type:UPDATE_POSTS_SAVED, payload: {isSaved, postID}})
+    }
     //this is the user list that displays when likes, followers or following is clicked
     const updateListUser = (users) => {
         dispatch({
@@ -100,6 +105,7 @@ const UserState = (props) => {
                 updateUser,
                 updateProfile,
                 updateListUser,
+                updatePostsSaved
             }}
         >
             {props.children}

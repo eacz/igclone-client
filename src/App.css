@@ -761,3 +761,7 @@ input:focus {
 .comment-detail-item .right i:hover {
     cursor: pointer;
 }
+ .upper-gray-line {
+     border-top:1px solid #b3b3b3;
+     padding: .5rem;
+ }

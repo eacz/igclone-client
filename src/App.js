@@ -26,6 +26,7 @@ import ResetPassword from './components/ResetPassword';
 import ForgotPassword from './components/ForgotPassword';
 import Search from './components/Search';
 import SearchState from './context/searchContext/searchState';
+import SavedPosts from './components/screens/SavedPosts';
 function App() {
     const token = localStorage.getItem('ig-token');
     authToken(token);
@@ -50,6 +51,7 @@ function App() {
                             <PrivateRoute exact path="/profile/config/reset-password" component={ResetPassword} />
                             <PrivateRoute path="/newpost" component={CreatePost} />
                             <PrivateRoute path="/userlist" component={UsersList} />
+                            <PrivateRoute path="/posts_saved" component={SavedPosts} />
                             
                             <Route path="/404" component={Page404} />
                             <Redirect to="/404" />

@@ -25,8 +25,8 @@ const Post = ({
     const [showShare, setShowShare] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const contextUser = useContext(userContext);
-    const { auth, updateListUser, user: loggedUser, updateUser } = contextUser;
-    const { updateLikes,refetchPosts } = useContext(postContext);
+    const { auth, updateListUser, user: loggedUser, updateUser, updatePostsSaved } = contextUser;
+    const { updateLikes, refetchPosts } = useContext(postContext);
     const [pComments, setPComments] = useState(comments);
     const redirectToUserDetails = (users) => {
         if (!auth) return;
@@ -73,11 +73,21 @@ const Post = ({
             const res = await axiosClient.post('/user/follow', data);
             updateUser(res.data.user);
             refetchPosts();
-            setShowOptions(false)
+            setShowOptions(false);
         } catch (error) {
             console.log(error);
         }
     };
+
+    const handleSavePost = async (isSaved) => {
+        console.log(isSaved);
+        try {
+            await axiosClient.post('/user/save_post', {isSaved, postID: _id})
+            updatePostsSaved(isSaved, _id)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <>
@@ -115,12 +125,17 @@ const Post = ({
                                 onClick={() => setShowShare(true)}
                             ></i>
                         </div>
-
-                        <i className="far fa-bookmark"></i>
+                        {loggedUser.postsSaved.includes(_id) ? (
+                            <i className="fas fa-bookmark" onClick={() => handleSavePost(true)}></i>
+                        ) : (
+                            <i className="far fa-bookmark" onClick={() => handleSavePost(false)}></i>
+                        )}
                     </div>
                 )}
                 <p
-                    className={`likes ${pLikes.length > 0 && auth ? 'pointer' : ''}`}
+                    className={`likes ${
+                        pLikes.length > 0 && auth ? 'pointer' : ''
+                    }`}
                     onClick={() => redirectToUserDetails(pLikes)}
                 >
                     {pLikes.length} Likes
@@ -179,16 +194,23 @@ const Post = ({
                         Delete Post
                     </p>
                 ) : loggedUser?.following.includes(user._id) ? (
-                    <p className="red-text pointer" onClick={() => handleUnfollow()}>Unfollow</p>
+                    <p
+                        className="red-text pointer"
+                        onClick={() => handleUnfollow()}
+                    >
+                        Unfollow
+                    </p>
                 ) : null}
 
                 <Link className="black-text" to={`/post/${_id}`}>
                     Go to the post
                 </Link>
-                <p><Link className="black-text" to={`/user/${user._id}`}>
-                    Go to profile
-                </Link></p>
-                
+                <p>
+                    <Link className="black-text" to={`/user/${user._id}`}>
+                        Go to profile
+                    </Link>
+                </p>
+
                 <p className="pointer" onClick={() => setShowOptions(false)}>
                     Cancel
                 </p>
