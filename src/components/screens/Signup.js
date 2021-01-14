@@ -29,8 +29,7 @@ const Signup = () => {
         photoURL,
     } = form;
     useEffect(() => {
-        console.log('error');
-        setLoading(false)
+        setLoading(false);
         if (!photoURL || Lerror) return;
         const postToServer = async () => {
             setLoading(true);
@@ -39,7 +38,7 @@ const Signup = () => {
                 const data = await axiosClient.post('/auth/signup', {
                     ...form,
                     photo: form.photoURL,
-                })
+                });
                 setError(null);
                 setLoading(false);
                 history.push('/login');
@@ -64,16 +63,21 @@ const Signup = () => {
             setError('Please, fill all the fields.');
             return;
         }
+        if (username.includes(' ')) {
+            setError("The username can't have spaces");
+            return;
+        }
         if (password !== cpassword) {
             setError("The passwords doesn't match");
             return;
         }
+
         const result = validatePasswordAndEmail(password, email);
         if (result) {
             setError(result);
             return;
         }
-        setError(null)
+        setError(null);
         setLoading(true);
         if (photo) {
             const data = new FormData();

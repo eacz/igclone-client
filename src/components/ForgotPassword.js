@@ -6,7 +6,7 @@ const ForgotPassword = () => {
         <>
         <Header />
         <div>
-            <p>Not implemented yet, fuck off</p>
+            <p>Not implemented yet</p>
         </div>
         </>
     )

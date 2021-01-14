@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import Cookies from 'js-cookie'
 import authToken from '../../config/authToken';
 import axiosClient from '../../config/config';
 import {
@@ -39,8 +40,8 @@ const UserState = (props) => {
                     user,
                 },
             });
+            Cookies.set('ig-clone-session', {...form, token})
             localStorage.setItem('ig-token', token);
-            localStorage.setItem('ig-user', JSON.stringify(user));
             return null
         } catch (error) {
             dispatch({
@@ -53,8 +54,8 @@ const UserState = (props) => {
 
     const logout = () => {
         dispatch({ type: LOGOUT });
+        Cookies.remove('ig-clone-session')
         localStorage.removeItem('ig-token');
-        localStorage.removeItem('ig-user');
         authToken();
     };
 

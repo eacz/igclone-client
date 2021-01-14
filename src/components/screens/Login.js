@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import userContext from '../../context/userContext/userContext';
 import Spinner from '../Layout/Spinner';
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const history = useHistory();
@@ -38,6 +39,26 @@ const Login = () => {
         }
         history.goBack();
     };
+
+    useEffect(() => {
+        const readCookie = async () => {
+            const session = Cookies.get('ig-clone-session');
+            if (session) {
+                const parsedSession = JSON.parse(session)
+                setLoading(true);
+                const result = await login(parsedSession);
+
+                if (result) {
+                    setError(result);
+                    setLoading(false);
+                    return;
+                }
+                history.goBack();
+            }
+        };
+        readCookie();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return auth ? (
         <Redirect to="/" />
@@ -86,7 +107,7 @@ const Login = () => {
                     </Link>
                 </h6>
                 <h6>
-                    Forgot your password? {' '}
+                    Forgot your password?{' '}
                     <Link className="blue-text" to="/forgot-password">
                         Reset your password
                     </Link>

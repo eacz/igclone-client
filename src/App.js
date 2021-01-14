@@ -30,37 +30,45 @@ import SavedPosts from './components/screens/SavedPosts';
 function App() {
     const token = localStorage.getItem('ig-token');
     authToken(token);
+   
 
     return (
         <UserState>
-            <PostsState>
-                <SearchState>
-                    <Router>
-                        <Switch>
-                            <Route exact path="/post/:postID" component={PostDetails} />
-                            <Route exact path="/post/:postID/comments" component={CommentsScreenList}/>
-                            <Route exact path="/forgot-password" component={ForgotPassword} />
-                            <Route exact path="/" component={Home} />
-                            <PrivateRoute exact path="/search" component={Search} />
-                            <Route path="/login" component={Login} />
-                            <Route path="/signup" component={Signup} />
-                            <Route path="/user/:userID" component={ProfileUser} />
-                            <PrivateRoute exact path="/profile" component={Profile} />
-                            <PrivateRoute exact path="/profile/config" component={ConfigProfile} />
-                            <PrivateRoute exact path="/profile/config/profile-info" component={ModifyProfileInfo} />
-                            <PrivateRoute exact path="/profile/config/reset-password" component={ResetPassword} />
-                            <PrivateRoute path="/newpost" component={CreatePost} />
-                            <PrivateRoute path="/userlist" component={UsersList} />
-                            <PrivateRoute path="/posts_saved" component={SavedPosts} />
-                            
-                            <Route path="/404" component={Page404} />
-                            <Redirect to="/404" />
-                        </Switch>
-                    </Router>
-                </SearchState>
-            </PostsState>
+           <Routes />
         </UserState>
     );
 }
+
+const Routes = () => {
+    return (
+        <PostsState>
+        <SearchState>
+            <Router>
+                <Switch>
+                    <Route exact path="/post/:postID" component={PostDetails} />
+                    <Route exact path="/post/:postID/comments" component={CommentsScreenList}/>
+                    <Route exact path="/forgot-password" component={ForgotPassword} />
+                    <Route exact path="/" component={Home} />
+                    <PrivateRoute exact path="/search" component={Search} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/user/:userID" component={ProfileUser} />
+                    <PrivateRoute exact path="/profile" component={Profile} />
+                    <PrivateRoute exact path="/profile/config" component={ConfigProfile} />
+                    <PrivateRoute exact path="/profile/config/profile-info" component={ModifyProfileInfo} />
+                    <PrivateRoute exact path="/profile/config/reset-password" component={ResetPassword} />
+                    <PrivateRoute path="/newpost" component={CreatePost} />
+                    <PrivateRoute path="/userlist" component={UsersList} />
+                    <PrivateRoute path="/posts_saved" component={SavedPosts} />
+                    
+                    <Route path="/404" component={Page404} />
+                    <Redirect to="/404" />
+                </Switch>
+            </Router>
+        </SearchState>
+    </PostsState>
+    )
+}
+
 
 export default App;
