@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 const Login = () => {
     const history = useHistory();
+    console.log(history.length);
     const ContextUser = useContext(userContext);
     const { login, error, auth } = ContextUser;
     const [loading, setLoading] = useState(false);
@@ -37,6 +38,10 @@ const Login = () => {
             setLoading(false);
             return;
         }
+        if(history.length <= 2) {
+            history.push('/')
+            return;
+        }
         history.goBack();
     };
 
@@ -53,6 +58,7 @@ const Login = () => {
                     setLoading(false);
                     return;
                 }
+               
                 history.goBack();
             }
         };

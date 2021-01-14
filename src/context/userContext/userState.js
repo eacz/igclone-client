@@ -40,7 +40,7 @@ const UserState = (props) => {
                     user,
                 },
             });
-            Cookies.set('ig-clone-session', {...form, token})
+            Cookies.set('ig-clone-session', {...form, token}, {secure: true})
             localStorage.setItem('ig-token', token);
             return null
         } catch (error) {
@@ -48,6 +48,7 @@ const UserState = (props) => {
                 action: LOGIN_FAILED,
                 payload: error.response.data.msg,
             });
+            Cookies.remove('ig-clone-session')
             return error.response.data.msg
         }
     };

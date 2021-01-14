@@ -25,7 +25,13 @@ const Post = ({
     const [showShare, setShowShare] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const contextUser = useContext(userContext);
-    const { auth, updateListUser, user: loggedUser, updateUser, updatePostsSaved } = contextUser;
+    const {
+        auth,
+        updateListUser,
+        user: loggedUser,
+        updateUser,
+        updatePostsSaved,
+    } = contextUser;
     const { updateLikes, refetchPosts } = useContext(postContext);
     const [pComments, setPComments] = useState(comments);
     const redirectToUserDetails = (users) => {
@@ -82,12 +88,12 @@ const Post = ({
     const handleSavePost = async (isSaved) => {
         console.log(isSaved);
         try {
-            await axiosClient.post('/user/save_post', {isSaved, postID: _id})
-            updatePostsSaved(isSaved, _id)
+            await axiosClient.post('/user/save_post', { isSaved, postID: _id });
+            updatePostsSaved(isSaved, _id);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     return (
         <>
@@ -126,9 +132,15 @@ const Post = ({
                             ></i>
                         </div>
                         {loggedUser.postsSaved.includes(_id) ? (
-                            <i className="fas fa-bookmark" onClick={() => handleSavePost(true)}></i>
+                            <i
+                                className="fas fa-bookmark"
+                                onClick={() => handleSavePost(true)}
+                            ></i>
                         ) : (
-                            <i className="far fa-bookmark" onClick={() => handleSavePost(false)}></i>
+                            <i
+                                className="far fa-bookmark"
+                                onClick={() => handleSavePost(false)}
+                            ></i>
                         )}
                     </div>
                 )}
@@ -201,10 +213,12 @@ const Post = ({
                         Unfollow
                     </p>
                 ) : null}
+                {!history.location.pathname.includes('post') && (
+                    <Link className="black-text" to={`/post/${_id}`}>
+                        Go to the post
+                    </Link>
+                )}
 
-                <Link className="black-text" to={`/post/${_id}`}>
-                    Go to the post
-                </Link>
                 <p>
                     <Link className="black-text" to={`/user/${user._id}`}>
                         Go to profile
