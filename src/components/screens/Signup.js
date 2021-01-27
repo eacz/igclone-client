@@ -10,6 +10,7 @@ const Signup = () => {
     const { auth } = useContext(userContext);
     const [Lerror, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [seePassword, setSeePassword] = useState(false);
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -19,15 +20,7 @@ const Signup = () => {
         photo: '',
         photoURL: '',
     });
-    const {
-        name,
-        email,
-        password,
-        cpassword,
-        username,
-        photo,
-        photoURL,
-    } = form;
+    const { name, email, password, cpassword, username, photo, photoURL } = form;
     useEffect(() => {
         setLoading(false);
         if (!photoURL || Lerror) return;
@@ -105,98 +98,89 @@ const Signup = () => {
     };
 
     return auth ? (
-        <Redirect to="/" />
+        <Redirect to='/' />
     ) : (
-        <div className="card-m">
-            <div className="card auth-card">
-                <h2 className="logo">Instagram</h2>
-                <div className="input-field">
-                    <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        value={name}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="name">Name</label>
+        <div className='card-m'>
+            <div className='card auth-card'>
+                <h2 className='logo'>Instagram</h2>
+                <div className='input-field'>
+                    <input type='text' name='name' id='name' value={name} onChange={handleChange} />
+                    <label htmlFor='name'>Name</label>
                 </div>
-                <div className="input-field">
+                <div className='input-field'>
                     <input
-                        type="text"
-                        name="username"
-                        id="username"
+                        type='text'
+                        name='username'
+                        id='username'
                         value={username}
                         onChange={handleChange}
                     />
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor='username'>Username</label>
                 </div>
 
-                <div className="input-field">
+                <div className='input-field'>
                     <input
-                        type="text"
-                        id="email"
-                        name="email"
+                        type='text'
+                        id='email'
+                        name='email'
                         value={email}
                         onChange={handleChange}
                     />
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor='email'>Email</label>
                 </div>
 
-                <div className="input-field">
+                <div className='input-field input-password'>
                     <input
-                        type="password"
-                        id="password"
-                        name="password"
+                        type={seePassword ? 'text' : 'password'}
+                        id='password'
+                        name='password'
                         value={password}
                         onChange={handleChange}
+                        placeholder='Password'
                     />
-                    <label htmlFor="password">Password</label>
+                    <i
+                        onClick={() => setSeePassword(!seePassword)}
+                        className={`pointer ${
+                            seePassword ? 'far fa-eye' : 'far fa-eye-slash'
+                        }`}></i>
                 </div>
 
-                <div className="input-field">
+                <div className='input-field'>
                     <input
-                        type="password"
-                        id="cpassword"
-                        name="cpassword"
+                        type={seePassword ? 'text' : 'password'}
+                        id='cpassword'
+                        name='cpassword'
                         value={cpassword}
                         onChange={handleChange}
+                        placeholder='Confirm Password'
                     />
-                    <label htmlFor="cpassword">Confirm password</label>
                 </div>
-                <div className="file-field input-field">
-                    <div className="btn blue">
+                <div className='file-field input-field'>
+                    <div className='btn blue'>
                         <span>Upload image</span>
                         <input
-                            type="file"
-                            name="photo"
-                            onChange={(e) =>
-                                setForm({ ...form, photo: e.target.files[0] })
-                            }
+                            type='file'
+                            name='photo'
+                            onChange={(e) => setForm({ ...form, photo: e.target.files[0] })}
                         />
                     </div>
-                    <div className="file-path-wrapper">
-                        <input
-                            className="file-path validate"
-                            type="text"
-                            name="photo"
-                            id="photo"
-                        />
+                    <div className='file-path-wrapper'>
+                        <input className='file-path validate' type='text' name='photo' id='photo' />
                     </div>
                 </div>
 
-                <p className="red-text">{Lerror}</p>
+                <p className='red-text'>{Lerror}</p>
                 {loading && <Spinner />}
                 <button
-                    className="btn waves-effect waves-light blue"
-                    type="submit"
-                    name="action"
-                    onClick={handleSignUp}
-                >
+                    className='btn waves-effect waves-light blue'
+                    type='submit'
+                    name='action'
+                    onClick={handleSignUp}>
                     Sign up
                 </button>
                 <h6>
                     Already have an account?{' '}
-                    <Link className="blue-text" to="/login">
+                    <Link className='blue-text' to='/login'>
                         Login
                     </Link>
                 </h6>

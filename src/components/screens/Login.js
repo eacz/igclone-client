@@ -8,6 +8,7 @@ const Login = () => {
     const ContextUser = useContext(userContext);
     const { login, error } = ContextUser;
     const [loading, setLoading] = useState(false);
+    const [seePassword, setSeePassword] = useState(false);
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -36,66 +37,68 @@ const Login = () => {
             setLoading(false);
             return;
         }
-        if(history.length <= 2) {
-            history.push('/')
+        if (history.length <= 2) {
+            history.push('/');
             return;
         }
         history.goBack();
     };
 
     return (
-        <div className="card-m">
-            <div className="card auth-card">
-                <h2 className="logo">Instagram</h2>
-                <div className="input-field">
+        <div className='card-m'>
+            <div className='card auth-card'>
+                <h2 className='logo'>Instagram</h2>
+                <div className='input-field'>
                     <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        className="validate"
+                        type='text'
+                        name='email'
+                        id='email'
+                        className='validate'
                         onChange={handleChange}
                         value={email}
                     />
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor='email'>Email</label>
                 </div>
 
-                <div className="input-field">
+                <div className='input-field input-password'>
                     <input
-                        type="password"
-                        id="password"
-                        name="password"
+                        type={seePassword ? 'text' : 'password'}
+                        id='password'
+                        name='password'
                         onChange={handleChange}
                         value={password}
+                        placeholder='Password'
                     />
-                    <label htmlFor="password">Password</label>
+                    <i
+                        onClick={() => setSeePassword(!seePassword)}
+                        className={`pointer ${seePassword ? 'far fa-eye' : 'far fa-eye-slash'}`}></i>
                 </div>
-                <p className="red-text">{error}</p>
-                <p className="red-text">{Lerror}</p>
+                <p className='red-text'>{error}</p>
+                <p className='red-text'>{Lerror}</p>
                 {loading && <Spinner />}
 
                 <button
-                    className="btn waves-effect waves-light blue"
-                    type="submit"
-                    name="action"
-                    onClick={handleLogin}
-                >
+                    className='btn waves-effect waves-light blue'
+                    type='submit'
+                    name='action'
+                    onClick={handleLogin}>
                     Login
                 </button>
                 <h6>
                     You don't have an account?{' '}
-                    <Link className="blue-text" to="/signup">
+                    <Link className='blue-text' to='/signup'>
                         Sign up
                     </Link>
                 </h6>
                 <h6>
                     Forgot your password?{' '}
-                    <Link className="blue-text" to="/forgot-password">
+                    <Link className='blue-text' to='/forgot-password'>
                         Reset your password
                     </Link>
                 </h6>
             </div>
         </div>
     );
-} 
+};
 
 export default Login;
