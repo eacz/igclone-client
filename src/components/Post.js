@@ -9,29 +9,14 @@ import LeaveComment from './LeaveComment';
 import Modal from './Layout/Modal';
 import { copyToClipboard } from '../shared/helpers';
 
-const Post = ({
-    photo,
-    postedBy: user,
-    body,
-    title,
-    likes,
-    comments,
-    created,
-    _id,
-}) => {
+const Post = ({ photo, postedBy: user, body, title, likes, comments, created, _id }) => {
     const history = useHistory();
     const commentInput = useRef(null);
     const [pLikes, setPLikes] = useState(likes);
     const [showShare, setShowShare] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const contextUser = useContext(userContext);
-    const {
-        auth,
-        updateListUser,
-        user: loggedUser,
-        updateUser,
-        updatePostsSaved,
-    } = contextUser;
+    const { auth, updateListUser, user: loggedUser, updateUser, updatePostsSaved } = contextUser;
     const { updateLikes, refetchPosts } = useContext(postContext);
     const [pComments, setPComments] = useState(comments);
     const redirectToUserDetails = (users) => {
@@ -48,9 +33,7 @@ const Post = ({
             pLikes.includes(loggedUser._id)
                 ? setPLikes(
                       likes.filter((id) =>
-                          id.toString() === loggedUser._id.toString()
-                              ? null
-                              : id
+                          id.toString() === loggedUser._id.toString() ? null : id
                       )
                   )
                 : setPLikes([...pLikes, loggedUser._id]);
@@ -86,7 +69,6 @@ const Post = ({
     };
 
     const handleSavePost = async (isSaved) => {
-        console.log(isSaved);
         try {
             await axiosClient.post('/user/save_post', { isSaved, postID: _id });
             updatePostsSaved(isSaved, _id);
@@ -97,73 +79,54 @@ const Post = ({
 
     return (
         <>
-            <div className="post">
-                <div className="header">
+            <div className='post'>
+                <div className='header'>
                     <Link to={`/user/${user._id}`}>
-                        <div className="user">
-                            <img src={user.photo} alt="user pic" />
+                        <div className='user'>
+                            <img src={user.photo} alt='user pic' />
                             <p>{user.username}</p>
                         </div>
                     </Link>
-                    <i
-                        className="fas fa-ellipsis-h"
-                        onClick={() => setShowOptions(true)}
-                    ></i>
+                    <i className='fas fa-ellipsis-h' onClick={() => setShowOptions(true)}></i>
                 </div>
-                <img src={photo} alt="phot" />
+                <img src={photo} alt='phot' />
                 {auth && (
-                    <div className="buttons">
-                        <div className="principal">
+                    <div className='buttons'>
+                        <div className='principal'>
                             <i
                                 className={`${
-                                    pLikes.includes(loggedUser._id)
-                                        ? 'fas red-text'
-                                        : 'far'
+                                    pLikes.includes(loggedUser._id) ? 'fas red-text' : 'far'
                                 } fa-heart`}
-                                onClick={() => handleLikeDislike()}
-                            ></i>
+                                onClick={() => handleLikeDislike()}></i>
+                            <i className='far fa-comment' onClick={handleFocusInput}></i>
                             <i
-                                className="far fa-comment"
-                                onClick={handleFocusInput}
-                            ></i>
-                            <i
-                                className="far fa-paper-plane"
-                                onClick={() => setShowShare(true)}
-                            ></i>
+                                className='far fa-paper-plane'
+                                onClick={() => setShowShare(true)}></i>
                         </div>
                         {loggedUser.postsSaved.includes(_id) ? (
-                            <i
-                                className="fas fa-bookmark"
-                                onClick={() => handleSavePost(true)}
-                            ></i>
+                            <i className='fas fa-bookmark' onClick={() => handleSavePost(true)}></i>
                         ) : (
                             <i
-                                className="far fa-bookmark"
-                                onClick={() => handleSavePost(false)}
-                            ></i>
+                                className='far fa-bookmark'
+                                onClick={() => handleSavePost(false)}></i>
                         )}
                     </div>
                 )}
                 <p
-                    className={`likes ${
-                        pLikes.length > 0 && auth ? 'pointer' : ''
-                    }`}
-                    onClick={() => redirectToUserDetails(pLikes)}
-                >
+                    className={`likes ${pLikes.length > 0 && auth ? 'pointer' : ''}`}
+                    onClick={() => redirectToUserDetails(pLikes)}>
                     {pLikes.length} Likes
                 </p>
-                <div className="post-body">
+                <div className='post-body'>
                     <Link to={`/user/${user._id}`}>
                         <span>{user.username}</span>
                     </Link>{' '}
                     {title}
                     <p>{body}</p>
                 </div>
-                {pComments.length > 0 && (
-                    <Comments comments={pComments} post={_id} />
-                )}
+                {pComments.length > 0 && <Comments comments={pComments} post={_id} />}
 
-                <p className="posted">{moment(created).fromNow()}</p>
+                <p className='posted'>{moment(created).fromNow()}</p>
                 {auth && (
                     <LeaveComment
                         inputRef={commentInput}
@@ -176,56 +139,42 @@ const Post = ({
             <Modal
                 showModal={showShare}
                 setShowModal={setShowShare}
-                title="Share this post!"
-                additionalClasses="modal-body-share"
-            >
+                title='Share this post!'
+                additionalClasses='modal-body-share'>
                 <input
                     onClick={() => copyToClipboard()}
-                    id="link-to-share"
-                    type="text"
+                    id='link-to-share'
+                    type='text'
                     value={`https://igclone-client.vercel.app/post/${_id}`}
                     readOnly
                 />
 
-                <i
-                    className="far fa-clipboard"
-                    onClick={() => copyToClipboard()}
-                ></i>
+                <i className='far fa-clipboard' onClick={() => copyToClipboard()}></i>
             </Modal>
 
-            <Modal
-                showModal={showOptions}
-                setShowModal={setShowOptions}
-                title="Options"
-            >
+            <Modal showModal={showOptions} setShowModal={setShowOptions} title='Options'>
                 {auth && user._id === loggedUser._id ? (
-                    <p
-                        className="red-text pointer"
-                        onClick={() => handleDeletePost()}
-                    >
+                    <p className='red-text pointer' onClick={() => handleDeletePost()}>
                         Delete Post
                     </p>
                 ) : loggedUser?.following.includes(user._id) ? (
-                    <p
-                        className="red-text pointer"
-                        onClick={() => handleUnfollow()}
-                    >
+                    <p className='red-text pointer' onClick={() => handleUnfollow()}>
                         Unfollow
                     </p>
                 ) : null}
                 {!history.location.pathname.includes('post') && (
-                    <Link className="black-text" to={`/post/${_id}`}>
+                    <Link className='black-text' to={`/post/${_id}`}>
                         Go to the post
                     </Link>
                 )}
 
                 <p>
-                    <Link className="black-text" to={`/user/${user._id}`}>
+                    <Link className='black-text' to={`/user/${user._id}`}>
                         Go to profile
                     </Link>
                 </p>
 
-                <p className="pointer" onClick={() => setShowOptions(false)}>
+                <p className='pointer' onClick={() => setShowOptions(false)}>
                     Cancel
                 </p>
             </Modal>

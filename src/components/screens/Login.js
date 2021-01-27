@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import userContext from '../../context/userContext/userContext';
 import Spinner from '../Layout/Spinner';
-import Cookies from 'js-cookie';
 
 const Login = () => {
     const history = useHistory();
-    console.log(history.length);
     const ContextUser = useContext(userContext);
-    const { login, error, auth } = ContextUser;
+    const { login, error } = ContextUser;
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         email: '',
@@ -45,30 +43,7 @@ const Login = () => {
         history.goBack();
     };
 
-    useEffect(() => {
-        const readCookie = async () => {
-            const session = Cookies.get('ig-clone-session');
-            if (session) {
-                const parsedSession = JSON.parse(session)
-                setLoading(true);
-                const result = await login(parsedSession);
-
-                if (result) {
-                    setError(result);
-                    setLoading(false);
-                    return;
-                }
-               
-                history.goBack();
-            }
-        };
-        readCookie();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    return auth ? (
-        <Redirect to="/" />
-    ) : (
+    return (
         <div className="card-m">
             <div className="card auth-card">
                 <h2 className="logo">Instagram</h2>
@@ -121,6 +96,6 @@ const Login = () => {
             </div>
         </div>
     );
-};
+} 
 
 export default Login;

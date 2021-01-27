@@ -65,7 +65,6 @@ export default (state, action) => {
                 );
             } else {
                 savedPostsUpdated = state.user.postsSaved;
-                console.log(savedPostsUpdated);
                 if(!savedPostsUpdated.includes(action.payload.postID)) {
                     savedPostsUpdated.push(action.payload.postID)
                 }

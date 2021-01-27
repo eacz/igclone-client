@@ -34,7 +34,8 @@
     color: #2c2c2c;
 }
 
-.navbar-m .search, .search-page {
+.navbar-m .search,
+.search-page {
     display: none;
     max-width: 200px;
     background-color: #f3f3f3 !important;
@@ -44,19 +45,17 @@
     height: 2rem !important;
     font-size: 1rem;
     text-align: center;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
-.navbar-m  .search-page {
+.navbar-m .search-page {
     display: block;
 }
 
-
 .navbar-m .search:focus {
-    text-align: start!important;
-    transition: all .3s ease-in-out;
+    text-align: start !important;
+    transition: all 0.3s ease-in-out;
 }
-
 
 @media (min-width: 768px) {
     .navbar-m .search {
@@ -71,7 +70,6 @@
     text-align: center;
     color: #b3b3b3;
 }
-
 
 .card-m {
     margin-top: 2rem;
@@ -761,7 +759,19 @@ input:focus {
 .comment-detail-item .right i:hover {
     cursor: pointer;
 }
- .upper-gray-line {
-     border-top:1px solid #b3b3b3;
-     padding: .5rem;
- }
+.upper-gray-line {
+    border-top: 1px solid #b3b3b3;
+    padding: 0.5rem;
+}
+
+.loading-screen {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-screen div {
+    height: 60px;
+    width: 60px;
+}

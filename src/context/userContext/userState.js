@@ -40,7 +40,7 @@ const UserState = (props) => {
                     user,
                 },
             });
-            Cookies.set('ig-clone-session', {...form, token}, {secure: true})
+            Cookies.set('ig-clone-session', {...form, token}, {secure: true, sameSite: 'strict'})
             localStorage.setItem('ig-token', token);
             return null
         } catch (error) {
