@@ -44,6 +44,7 @@ const UserState = (props) => {
             localStorage.setItem('ig-token', token);
             return null
         } catch (error) {
+            console.log(error);
             dispatch({
                 action: LOGIN_FAILED,
                 payload: error.response.data.msg,
