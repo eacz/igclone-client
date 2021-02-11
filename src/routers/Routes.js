@@ -36,7 +36,7 @@ const Routes = ({isAuth}) => {
                 <Switch>
                     <Route isAuth={isAuth} exact path="/post/:postID" component={PostDetails} />
                     <PrivateRoute isAuth={isAuth} exact path="/post/:postID/comments" component={CommentsScreenList}/>
-                    <PrivateRoute isAuth={isAuth} exact path="/forgot-password" component={ForgotPassword} />
+                    <PublicRoute isAuth={isAuth} exact path="/forgot-password" component={ForgotPassword} />
                     <PrivateRoute isAuth={isAuth} exact path="/" component={Home} />
                     <PrivateRoute isAuth={isAuth} exact path="/search" component={Search} />
                     <PublicRoute isAuth={isAuth} path="/login" component={Login} />
