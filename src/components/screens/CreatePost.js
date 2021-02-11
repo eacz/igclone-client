@@ -8,7 +8,7 @@ import Header from '../Layout/Header';
 const CreatePost = () => {
     const history = useHistory();
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [post, setPost] = useState({
         title: '',
         body: '',
@@ -23,7 +23,7 @@ const CreatePost = () => {
             //save the post in db
             try {
                 //im gonna use this data later
-                const newPost = await axiosClient.post(
+                await axiosClient.post(
                     '/post',
                     { ...post, photo: photoURL },
                     {
@@ -32,10 +32,10 @@ const CreatePost = () => {
                         },
                     }
                 );
-                setLoading(false)
+                setLoading(false);
                 history.push('/');
             } catch (error) {
-                setLoading(false)
+                setLoading(false);
                 setError('Something went wrong, please try again.');
             }
         };
@@ -51,7 +51,7 @@ const CreatePost = () => {
     };
 
     const handlePost = async () => {
-        if (!title || !body || !photo) {
+        if (!photo) {
             setError('Please fill all the fields');
             return;
         }
@@ -64,70 +64,51 @@ const CreatePost = () => {
         data.append('cloud_name', 'dbyrp5tgh');
         try {
             //upload the image to cloudinary
-            const res = await axios.post(
-                'https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload',
-                data
-            );
+            const res = await axios.post('https://api.cloudinary.com/v1_1/dbyrp5tgh/image/upload', data);
             setPost({ ...post, photoURL: res.data.secure_url });
         } catch (error) {
-            setError(
-                'Something went wrong uploading the image, please try again.'
-            );
+            setError('Something went wrong uploading the image, please try again.');
         }
     };
     return (
         <>
-        <Header/>
-        <div className="card-shadow new-post">
-            <h4>Create a new post!</h4>
-            <div className="input-field">
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={title}
-                    onChange={handleChange}
-                />
-                <label htmlFor="title">Title</label>
-            </div>
-            <div className="input-field">
-                <textarea
-                    id="body"
-                    name="body"
-                    value={body}
-                    onChange={handleChange}
-                    className="materialize-textarea"
-                ></textarea>
-                <label htmlFor="body">Body</label>
-            </div>
-            <div className="file-field input-field">
-                <div className="btn blue">
-                    <span>Upload image</span>
-                    <input
-                        type="file"
-                        name="photo"
-                        onChange={(e) =>
-                            setPost({ ...post, photo: e.target.files[0] })
-                        }
-                    />
+            <Header />
+            <div className='card-shadow new-post'>
+                <h4>Create a new post!</h4>
+                <div className='input-field'>
+                    <input type='text' id='title' name='title' value={title} onChange={handleChange} />
+                    <label htmlFor='title'>Title</label>
                 </div>
-                <div className="file-path-wrapper">
-                    <input
-                        className="file-path validate"
-                        type="text"
-                        name="photo"
-                        id="photo"
-                    />
+                <div className='input-field'>
+                    <textarea
+                        id='body'
+                        name='body'
+                        value={body}
+                        onChange={handleChange}
+                        className='materialize-textarea'></textarea>
+                    <label htmlFor='body'>Body</label>
+                </div>
+                <div className='file-field input-field'>
+                    <div className='btn blue'>
+                        <span>Upload image</span>
+                        <input
+                            type='file'
+                            name='photo'
+                            onChange={(e) => setPost({ ...post, photo: e.target.files[0] })}
+                        />
+                    </div>
+                    <div className='file-path-wrapper'>
+                        <input className='file-path validate' type='text' name='photo' id='photo' />
+                    </div>
+                </div>
+                <p className='red-text'>{error}</p>
+                {loading && <Spinner />}
+                <div className='btn-container'>
+                    <button className='btn blue' onClick={() => handlePost()}>
+                        Post it
+                    </button>
                 </div>
             </div>
-            <p className="red-text">{error}</p>
-            {loading && <Spinner />}
-            <div className="btn-container">
-                <button className="btn blue" onClick={() => handlePost()}>
-                    Post it
-                </button>
-            </div>
-        </div>
         </>
     );
 };
